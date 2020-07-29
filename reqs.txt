@@ -1,0 +1,6 @@
+knex
+pg
+sqlite3
+dotenv
+express
+ejs
