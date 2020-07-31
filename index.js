@@ -1,8 +1,10 @@
+
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const logs_table = require('./models/db_crud.js')
+
 
 const app = express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -28,7 +30,15 @@ app.get('/api', function(req, res){
 app.get('/', function(req, res){
   //log query
   console.log(req.query)
-  res.render('pages/index')
+  
+  const rescue_time = require('./app_integrations/_get_rescue_time.js')
+ 
+  let df = rescue_time.df.then(function(data) {
+    console.log(data) 
+    res.render('pages/index', {'data':data})
+ })
+
+
 });
 
 app.get('/data', function(req,res){

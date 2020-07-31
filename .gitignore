@@ -12,3 +12,7 @@ Dockerfile
 docker-compose.yml
 
 /data
+
+/app_integrations
+
+config.json

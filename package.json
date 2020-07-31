@@ -11,6 +11,8 @@
     "test": "node test.js"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "d3": "^5.16.0",
     "dotenv": "^8.2.0",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
