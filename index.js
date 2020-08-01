@@ -34,7 +34,7 @@ app.get('/', function(req, res){
   const rescue_time = require('./app_integrations/_get_rescue_time.js')
  
   let df = rescue_time.df.then(function(data) {
-    console.log(data) 
+    //console.log(data) 
     res.render('pages/index', {'data':data})
  })
 
