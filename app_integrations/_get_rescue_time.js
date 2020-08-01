@@ -29,7 +29,7 @@ const convertRescueTime = async () =>{
         const today = new Date()
     
         //shift the days if we want to get another date for easy time range
-        if (shift_days > 0){
+        if (shift_days < 0){
             today.setDate(today.getDate()+shift_days)
         }
                 
@@ -41,7 +41,8 @@ const convertRescueTime = async () =>{
     }
     
     URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str(-7)}&restrict_end=${_get_date_str()}&format=csv`
-    console.log(URL)
+    // console.log(URL)
+    // console.log(_get_date_str(-7))
     const response = await getRescueTime()
     let df = d3.csvParse(response['data'])
     return df
