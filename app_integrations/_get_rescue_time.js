@@ -2,7 +2,7 @@
 console.log('Running...')
 const cheerio = require('cheerio')
 const axios = require('axios')
-const key = require('../config.json')['rescue_time_key']
+const key = process.env.RESCUE_TIME_KEY || require('../config.json')['rescue_time_key']
 const d3 = require('d3')
 
 function _get_date_str(shift_days = 0){
