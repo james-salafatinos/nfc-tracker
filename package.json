@@ -11,6 +11,7 @@
     "test": "node test.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "d3": "^5.16.0",
     "dotenv": "^8.2.0",
