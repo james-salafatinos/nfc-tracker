@@ -23,7 +23,6 @@ function _get_date_str(shift_days = 0){
 
 
 URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str(-7)}&restrict_end=${_get_date_str()}&format=csv`
-console.log(_get_date_str(-30))
 
 
 const getRescueTime = async () => {
@@ -39,10 +38,10 @@ const getRescueTime = async () => {
 
 const convertRescueTime = async () =>{
     //async return response and d3 parse
+    console.log(URL)
     const response = await getRescueTime()
     let df = d3.csvParse(response['data'])
     return df
-    //console.log(df)
 
 }
 
