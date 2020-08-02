@@ -1,28 +1,34 @@
-const { spawn } = require('child_process');
-const got = require('got');
-const test = require('tape');
 
-// Start the app
-const env = Object.assign({}, process.env, {PORT: 5000});
-const child = spawn('node', ['index.js'], {env});
+require('dotenv').config()
+const express = require('express')
+const path = require('path')
+const d3 = require('d3')
+const PORT = process.env.PORT || 5000
+const logs_table = require('./models/db_crud.js')
 
-test('responds to requests', (t) => {
-  t.plan(4);
+j = 10
+cubesData = [];
+var cnt = 0;
 
-  // Wait until the server is ready
-  child.stdout.on('data', _ => {
-    // Make a request to our app
-    (async () => {
-      const response = await got('http://127.0.0.1:5000');
-      // stop the server
-      child.kill();
-      // No error
-      t.false(response.error);
-      // Successful response
-      t.equal(response.statusCode, 200);
-      // Assert content checks
-      t.notEqual(response.body.indexOf("<title>Node.js Getting Started on Heroku</title>"), -1);
-      t.notEqual(response.body.indexOf("Getting Started on Heroku with Node.js"), -1);
-    })();
-  });
-});
+function makeCube(h, x, z){
+    return [
+        {x: x - 1, y: h, z: z + 1}, // FRONT TOP LEFT
+        {x: x - 1, y: 0, z: z + 1}, // FRONT BOTTOM LEFT
+        {x: x + 1, y: 0, z: z + 1}, // FRONT BOTTOM RIGHT
+        {x: x + 1, y: h, z: z + 1}, // FRONT TOP RIGHT
+        {x: x - 1, y: h, z: z - 1}, // BACK  TOP LEFT
+        {x: x - 1, y: 0, z: z - 1}, // BACK  BOTTOM LEFT
+        {x: x + 1, y: 0, z: z - 1}, // BACK  BOTTOM RIGHT
+        {x: x + 1, y: h, z: z - 1}, // BACK  TOP RIGHT
+    ];
+}
+
+
+var h = d3.randomUniform(-2, -7)();
+for(var z = -j; z <= j; z = z + 3){
+    for(var x = -j; x <= j; x = x + 3)
+    console.log(h,x,z)
+    var _cube = makeCube(h, x, z);
+    _cube.id = 'cube_' + cnt++;
+    _cube.height = h;
+    cubesData.push(_cube);}

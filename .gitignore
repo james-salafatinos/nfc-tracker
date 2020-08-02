@@ -18,3 +18,6 @@ config.json
 
 /.ipynb_checkpoints
 *.ipynb
+
+test.json
+*.csv

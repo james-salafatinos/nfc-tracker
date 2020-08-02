@@ -31,14 +31,21 @@ app.get('/', function(req, res){
   //log query
   console.log(req.query)
   
+
   const rescue_time = require('./app_integrations/_get_rescue_time.js')
+  const habits = require('./app_integrations/_get_habits.js')
  
-  let df = rescue_time.df.then(function(data) {
-    //console.log(data) 
-    res.render('pages/index', {'data':data})
+
+  // const promise2 = new Promise((resolve, reject) => {
+  //   setTimeout(resolve, 100, 'foo');
+  // });
+
+  Promise.all([rescue_time.df, habits.df]).then((data) => {
+    Promise.resolve(habits.df).then((habit_data) => {
+      res.render('pages/index', {'data':data, 'habit_data': habit_data})
+  })
+  
  })
-
-
 });
 
 app.get('/data', function(req,res){

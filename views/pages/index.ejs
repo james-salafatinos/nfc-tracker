@@ -4,7 +4,9 @@
   <% include ../partials/header.ejs %>
   <script type="text/javascript">
     //declare d3 variables
-    var data = <%- JSON.stringify( data ); %>
+    var data = <%- JSON.stringify( data[0] ); %>
+    var data_habits = <%- JSON.stringify( data[1] ); %>
+    console.log(data_habits)
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js"></script>
@@ -43,7 +45,7 @@ button {
 </style>
 
 <script>
-    var origin = [480, 300], scale = 20, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
+    var origin = [480, 300], scale = 25, j = 10, cubesData = [], alpha = .7, beta = 20, startAngle = Math.PI/6;
     var svg    = d3.select('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
     var color  = d3.scaleOrdinal(d3.schemeCategory20);
     var cubesGroup = svg.append('g').attr('class', 'cubes');
@@ -135,18 +137,34 @@ button {
 
     function init(){
         cubesData = [];
+        let _z = []
+        let _j = []
+        let _x = []
+        let _h = []
         var cnt = 0;
-        for(var z = -j/2; z <= j/2; z = z + 5){
-            for(var x = -j; x <= j; x = x + 5){
+        for(var z = -j; z <= j; z = z + 3){
+            for(var x = -j; x <= j; x = x + 3){
             var h = d3.randomUniform(-2, -7)();
             var _cube = makeCube(h, x, z);
                 _cube.id = 'cube_' + cnt++;
                 _cube.height = h;
+
+                _z.push(z)
+                _j.push(j)
+                _x.push(x)
+                _h.push(h)
+
                 cubesData.push(_cube);
             }
         }
+        console.log("pre-preorocess cubesData",cubesData)
         processData(cubes3D(cubesData), 1000);
-        console.log(cubesData)
+        console.log("cubesData",cubesData)
+        console.log("cubes3D", cubes3D(cubesData), 1000);
+        console.log(z, _z)
+        console.log(j, _j)
+        console.log(x, _x)
+        console.log(h, _h)
     }
 
     function dragStart(){

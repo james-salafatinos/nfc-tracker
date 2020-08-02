@@ -21,6 +21,7 @@
     "knex": "^0.21.2",
     "notionapi-agent": "^1.2.0",
     "pg": "^8.3.0",
+    "request": "^2.88.2",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
