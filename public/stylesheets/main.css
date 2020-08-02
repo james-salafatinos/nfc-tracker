@@ -17,12 +17,15 @@
   .jumbotron .lang-logo {
     display: block;
     background: #B01302;
+    box-shadow: 
+    12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+    -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
     border-radius: 20%;
     overflow: hidden;
     width: 250px;
     height: 250px;
     margin: auto;
-    border: 2px solid white; }
+    border: 0px solid white; }
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
@@ -32,6 +35,7 @@
   box-shadow: 
   12px 12px 16px 0 rgba(0, 0, 0, 0.25),
   -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+  
 }
 
 
