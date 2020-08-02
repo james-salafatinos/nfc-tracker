@@ -44,7 +44,8 @@ const convertRescueTime = async () =>{
     // console.log(URL)
     // console.log(_get_date_str(-7))
     const response = await getRescueTime()
-    let df = d3.csvParse(response['data'])
+    let df = d3.csvParse(response['data'], d3.autoType)
+    
     return df
 
 }

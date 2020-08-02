@@ -1,5 +1,6 @@
 .jumbotron {
   background: #532F8C;
+  background-image: url(../backgroundpic.png);
   color: white;
   padding-bottom: 80px; }
   .jumbotron .btn-primary {
@@ -16,12 +17,55 @@
   .jumbotron .lang-logo {
     display: block;
     background: #B01302;
-    border-radius: 50%;
+    border-radius: 20%;
     overflow: hidden;
-    width: 100px;
-    height: 100px;
+    width: 250px;
+    height: 250px;
     margin: auto;
     border: 2px solid white; }
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+
+      
+.btn{
+  box-shadow: 
+  12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+  -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+}
+
+
+
+body {
+  background-image: url(../backgroundpic.png);
+}
+
+
+
+.element {
+  align-items: center;
+  background-color: #ffffff;
+
+  box-shadow: 
+    12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+    -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  display: flex;
+  height: 500px;
+  justify-content: center;
+  margin-right: 4rem;
+  margin-left: 4rem;
+  width: 900px;
+}
+
+.element-small {
+  align-items: center;
+  vertical-align:middle;
+  border-radius: 50px;
+  display: flex;
+  height: 20px;
+  margin-top:15px;
+  justify-content: center;
+  margin-right: 4rem;
+  width: 900px;
+}

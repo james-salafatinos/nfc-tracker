@@ -2,36 +2,173 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script type="text/javascript">
+    //declare d3 variables
+    var data = <%- JSON.stringify( data ); %>
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 </head>
 
 <body>
 
-  <% include ../partials/nav.ejs %>
 
 
 <div class="jumbotron text-center">
   <div class="container">
     <a href="/" class="lang-logo">
-      <img src="/lang-logo.png">
+      <img src="/lang-logo.jpg">
     </a>
-    <h1>NFC Logger</h1>
+
    
     <a type="button" class="btn btn-lg btn-default" href=""><span class="glyphicon glyphicon-flash"></span></a>
     <a type="button" class="btn btn-lg btn-primary" href=""><span class="glyphicon glyphicon-download"></span></a>
   </div>
 </div>
-<div class="container">
-  <div class="alert alert-info text-center" role="alert">
-  </div>
-  <hr>
-</div>
+
 
 <!-- Visualization !-->
+<body>  
+    
+    <div class="text-center">
+            
+ 
+
+    <div class="element" id="my_dataviz">
+    </div>
+    </div>
+
+            
+        <script>
+        // set the dimensions and margins of the graph
+        var width = 700
+            height = 550
+            margin = 70
+
+        // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+        var radius = Math.min(width, height) / 2 - margin
+
+        // append the svg object to the div called 'my_dataviz'
+        var svg = d3.select("#my_dataviz")
+        .append("svg")
+            .attr("width", width)
+            .attr("height", height-10)
+        .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+
+        var nested_data = d3.nest()
+        .key(function(d) { return d.Category; })
+        .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Time Spent (seconds)']}); })
+        .entries(data);
+
+        
+        //Getting the domain for colors (how many colors do you want)
+        let cat_time = Object.values(nested_data)
+        var cats = [];
+        for(var o in cat_time) {
+            cats.push(cat_time[o].key);
+        }
+        var color = d3.scaleOrdinal()
+        .domain(cats)
+        .range(d3.schemeDark2);
+        
+
+        //################Get Top 15########################
+        //Get the values
+        const array_to_be_sorted = [];
+        nested_data.forEach(obj => {
+            array_to_be_sorted.push(obj.value);
+        })
+        //Sort them
+        const sorted_times = array_to_be_sorted.sort((a,b)=>a-b)
+        console.log(sorted_times)
+        // Slice out the top 15
+        browser_times_to_show = sorted_times.slice(sorted_times.length -15, sorted_times.length+1)
+
+        //Add them to a map if they are in the top 15
+        const converted = {};
+        nested_data.forEach(obj => {
+            if (browser_times_to_show.includes(obj.value)){
+                converted[JSON.stringify(obj.key)] = obj.value;
+            }
+        })
+        //#######################
+
+        // Compute the position of each group on the pie:
+        var pie = d3.pie()
+        .sort(null) // Do not sort group by size
+        .value(function(d) {return d.value})
+
+        var data_ready = pie(d3.entries(converted))
+        
+
+
+        // The arc generator
+        var arc = d3.arc()
+        .innerRadius(radius * 0.5)         // This is the size of the donut hole
+        .outerRadius(radius * 0.8)
+
+        // Another arc that won't be drawn. Just for labels positioning
+        var outerArc = d3.arc()
+        .innerRadius(radius * 0.9)
+        .outerRadius(radius * 0.9)
+
+        // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+        svg
+        .selectAll('allSlices')
+        .data(data_ready)
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d){ return(color(d.data.key)) })
+        .attr("stroke", "white")
+        .style("stroke-width", "2px")
+        .style("opacity", 0.7)
+
+        // Add the polylines between chart and labels:
+        svg
+        .selectAll('allPolylines')
+        .data(data_ready)
+        .enter()
+        .append('polyline')
+            .attr("stroke", "black")
+            .style("fill", "none")
+            .attr("stroke-width", 1)
+            .attr('points', function(d) {
+            var posA = arc.centroid(d) // line insertion in the slice
+            var posB = outerArc.centroid(d) // line break: we use the other arc generator that has been built only for that
+            var posC = outerArc.centroid(d); // Label position = almost the same as posB
+            var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
+            posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+            return [posA, posB, posC]
+            })
+
+        // Add the polylines between chart and labels:
+        svg
+        .selectAll('allLabels')
+        .data(data_ready)
+        .enter()
+        .append('text')
+            .text( function(d) { return d.data.key} )//this is okay
+            .attr('transform', function(d) {
+                var pos = outerArc.centroid(d);
+                var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+                pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+                return 'translate(' + pos + ')';
+            })
+            .style('text-anchor', function(d) {
+                var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+                return (midangle < Math.PI ? 'start' : 'end')
+            })
+
+        </script>
 
 
 <div>
 
-    <%- JSON.stringify(data) %>
+    <!--<%- JSON.stringify(data) %> !-->
 </div>
 
 
