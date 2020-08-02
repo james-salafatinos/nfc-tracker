@@ -15,3 +15,6 @@ docker-compose.yml
 
 
 config.json
+
+/.ipynb_checkpoints
+*.ipynb
