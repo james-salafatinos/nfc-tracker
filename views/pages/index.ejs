@@ -96,16 +96,21 @@ button {
         /* --------- TEXT ---------*/
 
         var texts = cubes.merge(ce).selectAll('text.text').data(function(d){
-            console.log(d.id)
             var _t = d.faces.filter(function(d){
                 
                 return d.face === 'top';
             });
-            return [{height: d.height, centroid: _t[0].centroid}];
+            return [{height: d.height, centroid: _t[0].centroid, day: d.day}];
         });
 
 
+        function getDayOfWeek(date) {
+        const dayOfWeek = new Date(date).getDay();    
+        return isNaN(dayOfWeek) ? null : 
+            ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'][dayOfWeek];
+        }
         
+
         texts
             .enter()
             .append('text')
@@ -125,9 +130,15 @@ button {
             .attr('y', function(d){ return origin[1] + scale * d.centroid.y })
             .tween('text', function(d){
                 var that = d3.select(this);
-                var i = d3.interpolateNumber(+that.text(), Math.abs(d.height));
+
+                //console.log(that.text().slice(that.text().length-3,that.text().length))
+                //interpolated after a slice of the String because the text is passed including the date...
+                var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height));
+                var v = () => getDayOfWeek(d.day)//d.day//d3.interpolateString(d.day, Math.abs(d.height));
+
                 return function(t){
-                    that.text(i(t).toFixed(1));
+                    that.text(v(t) + ' | ' + i(t).toFixed(1));
+
                 };
             });
 
@@ -166,8 +177,8 @@ button {
             var _cube = makeCube(h, x, z);
                 _cube.id = 'cube_' + cnt++;
                 _cube.height = h;
-                //_cube.day = nested_data_habits[cnt]
-                //console.log(_cube.day)
+                _cube.day = nested_data_habits[cnt-1].key
+                console.log(_cube.day)
 
                 _z.push(z)
                 _j.push(j)
@@ -177,14 +188,7 @@ button {
                 cubesData.push(_cube);
             }
         }
-        // console.log("pre-preorocess cubesData",cubesData)
         processData(cubes3D(cubesData), 1000);
-        // console.log("cubesData",cubesData)
-        // console.log("cubes3D", cubes3D(cubesData), 1000);
-        // console.log(z, _z)
-        // console.log(j, _j)
-        // console.log(x, _x)
-        // console.log(h, _h)
     }
 
     function dragStart(){
@@ -197,7 +201,7 @@ button {
         mouseY = mouseY || 0;
         beta   = (d3.event.x - mx + mouseX) * Math.PI / 230 ;
         alpha  = (d3.event.y - my + mouseY) * Math.PI / 230  * (-1);
-        processData(cubes3D.rotateY(beta + startAngle).rotateX(alpha - startAngle)(cubesData), 0);
+        processData(cubes3D.rotateY(beta + startAngle + Math.PI ).rotateX(alpha - startAngle)(cubesData), 0);
     }
 
     function dragEnd(){
