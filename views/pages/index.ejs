@@ -56,7 +56,7 @@ button {
         .x(function(d){ return d.x; })
         .y(function(d){ return d.y; })
         .z(function(d){ return d.z; })
-        .rotateY( startAngle)
+        .rotateY( startAngle + Math.PI)
         .rotateX(-startAngle)
         .origin(origin)
         .scale(scale);
@@ -96,12 +96,16 @@ button {
         /* --------- TEXT ---------*/
 
         var texts = cubes.merge(ce).selectAll('text.text').data(function(d){
+            console.log(d.id)
             var _t = d.faces.filter(function(d){
+                
                 return d.face === 'top';
             });
             return [{height: d.height, centroid: _t[0].centroid}];
         });
 
+
+        
         texts
             .enter()
             .append('text')
@@ -147,15 +151,23 @@ button {
         let _x = []
         let _h = []
         var cnt = 0;
+
+        //Group By the Date!
+        var nested_data_habits = d3.nest()
+            .key(function(d) { return d.CalendarDate; }) //cat
+            .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Value']}); })
+            .entries(data_habits);
+        console.log(nested_data_habits)
+
         for(var z = -j; z <= j; z = z + 6){
             for(var x = -j; x <= j; x = x + 3){
-            var h = d3.randomUniform(-1, -50)();
-            //var h = d3.randomUniform(-2, -7)();
-            console.log(h)
-            var h = -1*data_habits[-1*Math.floor(h)]['Value'];
+            h = -1*nested_data_habits[cnt].value
+            
             var _cube = makeCube(h, x, z);
                 _cube.id = 'cube_' + cnt++;
                 _cube.height = h;
+                //_cube.day = nested_data_habits[cnt]
+                //console.log(_cube.day)
 
                 _z.push(z)
                 _j.push(j)
@@ -165,14 +177,14 @@ button {
                 cubesData.push(_cube);
             }
         }
-        console.log("pre-preorocess cubesData",cubesData)
+        // console.log("pre-preorocess cubesData",cubesData)
         processData(cubes3D(cubesData), 1000);
-        console.log("cubesData",cubesData)
-        console.log("cubes3D", cubes3D(cubesData), 1000);
-        console.log(z, _z)
-        console.log(j, _j)
-        console.log(x, _x)
-        console.log(h, _h)
+        // console.log("cubesData",cubesData)
+        // console.log("cubes3D", cubes3D(cubesData), 1000);
+        // console.log(z, _z)
+        // console.log(j, _j)
+        // console.log(x, _x)
+        // console.log(h, _h)
     }
 
     function dragStart(){
