@@ -45,7 +45,7 @@ button {
 </style>
 
 <script>
-    var origin = [480, 300], scale = 25, j = 10, cubesData = [], alpha = .7, beta = 20, startAngle = Math.PI/6;
+    var origin = [480, 300], scale = 20, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
     var svg    = d3.select('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
     var color  = d3.scaleOrdinal(d3.schemeCategory20);
     var cubesGroup = svg.append('g').attr('class', 'cubes');
@@ -135,6 +135,11 @@ button {
 
     }
 
+
+
+
+
+
     function init(){
         cubesData = [];
         let _z = []
@@ -142,9 +147,12 @@ button {
         let _x = []
         let _h = []
         var cnt = 0;
-        for(var z = -j; z <= j; z = z + 3){
+        for(var z = -j; z <= j; z = z + 6){
             for(var x = -j; x <= j; x = x + 3){
-            var h = d3.randomUniform(-2, -7)();
+            var h = d3.randomUniform(-1, -50)();
+            //var h = d3.randomUniform(-2, -7)();
+            console.log(h)
+            var h = -1*data_habits[-1*Math.floor(h)]['Value'];
             var _cube = makeCube(h, x, z);
                 _cube.id = 'cube_' + cnt++;
                 _cube.height = h;

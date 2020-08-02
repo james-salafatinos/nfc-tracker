@@ -23,7 +23,7 @@ const getHabits = async () => {
 
 const convertHabits = async () =>{
     const response = await getHabits()
-    let df = d3.csvParse(response.data)
+    let df = d3.csvParse(response.data, d3.autoType)
     return df 
 }
 
