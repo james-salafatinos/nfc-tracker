@@ -73,3 +73,10 @@ body {
   margin-right: 4rem;
   width: 900px;
 }
+
+.event-text {
+  fill:'black';
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: 400;
+}
