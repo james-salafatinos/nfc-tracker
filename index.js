@@ -24,8 +24,10 @@ app.get('/api', function(req, res){
   .catch(error =>{
     res.status(500).json({message: 'Error with adding to DB'})
   })
-  res.render('pages/index')
+  //res.render('pages/index')
 });
+
+
 
 app.get('/', function(req, res){
   //log query
@@ -34,17 +36,11 @@ app.get('/', function(req, res){
 
   const rescue_time = require('./app_integrations/_get_rescue_time.js')
   const habits = require('./app_integrations/_get_habits.js')
- 
-
-  // const promise2 = new Promise((resolve, reject) => {
-  //   setTimeout(resolve, 100, 'foo');
-  // });
 
   Promise.all([rescue_time.df, habits.df]).then((data) => {
     Promise.resolve(habits.df).then((habit_data) => {
       res.render('pages/index', {'data':data, 'habit_data': habit_data})
   })
-  
  })
 });
 
