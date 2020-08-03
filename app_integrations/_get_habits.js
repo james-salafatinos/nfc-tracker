@@ -1,13 +1,8 @@
-
-
 console.log('Running...')
 const cheerio = require('cheerio')
 const axios = require('axios')
-const key = process.env.RESCUE_TIME_KEY || require('../config.json')['rescue_time_key']
 const d3 = require('d3')
 var request = require('request');
-
-
 
 
 URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv'
@@ -43,23 +38,23 @@ const convertHabits = async () =>{
     const response = await getHabits()
     let df = d3.csvParse(response.data, d3.autoType)
 
-    
+
     //Create "Keep" filter for dates to display the 28 habit view
     const date_entries = Array.from(Array(28).keys())
     const dates_allowed = date_entries.map(date => _get_date_str(shift_days = -date));
     filteredData = df.filter(function(d) {
         //Filter data for last 4 weeks
         if (dates_allowed.includes(d.CalendarDate)){
-            //return d.CalendarDate == _get_date_str(shift_days = -5)
             return d
         }
+    
     })
-    //console.log(filteredData)
     
     return filteredData
 }
 
 let df = convertHabits()
+console.log(df)
 
 exports.df = df;
     
