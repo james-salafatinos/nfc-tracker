@@ -1,25 +1,25 @@
 <script>
-        var origin_habits = [475, 300], scale = 20, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
-        var svg_habit    = d3.select('#habit').append('svg').append('g').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
+        var origin = [475, 300], scale = 20, j = 10, cubesData_habits = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
+        var svg_habit    = d3.select('#habit').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
         var color  = d3.scaleOrdinal(d3.schemeCategory20);
-        var cubesGroup = svg_habit.append('g').attr('class', 'cubes');
+        var cubesGroup_habits = svg_habit.append('g').attr('class', 'cubes');
         var mx, my, mouseX, mouseY;
     
-        var cubes3D = d3._3d()
+        var cubes3D_habits = d3._3d()
             .shape('CUBE')
             .x(function(d){ return d.x; })
             .y(function(d){ return d.y; })
             .z(function(d){ return d.z; })
             .rotateY( startAngle + Math.PI)
             .rotateX(-startAngle)
-            .origin(origin_habits)
+            .origin(origin)
             .scale(scale);
     
         function processData_habits(data, tt){
     
             /* --------- CUBES ---------*/
     
-            var cubes = cubesGroup.selectAll('g.cube').data(data, function(d){ return d.id });
+            var cubes = cubesGroup_habits.selectAll('g.cube').data(data, function(d){ return d.id });
     
             var ce = cubes
                 .enter()
@@ -28,7 +28,7 @@
                 .attr('fill', function(d){ return color(d.id); })
                 .attr('stroke', function(d){ return d3.color(color(d.id)).darker(2); })
                 .merge(cubes)
-                .sort(cubes3D.sort);
+                .sort(cubes3D_habits.sort);
     
             cubes.exit().remove();
     
@@ -43,7 +43,7 @@
                 .classed('_3d', true)
                 .merge(faces)
                 .transition().duration(tt)
-                .attr('d', cubes3D.draw);
+                .attr('d', cubes3D_habits.draw);
     
             faces.exit().remove();
     
@@ -87,7 +87,7 @@
     
                     //console.log(that.text().slice(that.text().length-3,that.text().length))
                     //interpolated after a slice of the String because the text is passed including the date...
-                    var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height));
+                    var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height)/2);
                     var v = () => getDayOfWeek(d.day)//d.day//d3.interpolateString(d.day, Math.abs(d.height));
     
                     return function(t){
@@ -110,7 +110,7 @@
     
     
         function init(){
-            cubesData = [];
+            cubesData_habits = [];
             let _z = []
             let _j = []
             let _x = []
@@ -139,10 +139,10 @@
                     _x.push(x)
                     _h.push(h)
     
-                    cubesData.push(_cube);
+                    cubesData_habits.push(_cube);
                 }
             }
-            processData_habits(cubes3D(cubesData), 1000);
+            processData_habits(cubes3D_habits(cubesData_habits), 1000);
         }
     
         function dragStart(){
@@ -156,7 +156,7 @@
             mouseY = mouseY || 0;
             beta   = (d3.event.x - mx + mouseX) * Math.PI / 230 ;
             alpha  = (d3.event.y - my + mouseY) * Math.PI / 230  * (-1);
-            processData_habits(cubes3D.rotateY(beta + startAngle + Math.PI ).rotateX(alpha - startAngle)(cubesData), 0);
+            processData_habits(cubes3D_habits.rotateY(beta + startAngle + Math.PI ).rotateX(alpha - startAngle)(cubesData_habits), 0);
         }
     
         function dragEnd(){
