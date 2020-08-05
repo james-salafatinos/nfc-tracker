@@ -4,3 +4,6 @@ sqlite3
 dotenv
 express
 ejs
+axios
+cheerio
+d3
