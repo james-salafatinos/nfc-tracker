@@ -1,6 +1,6 @@
 <script>
-        var origin = [475, 300], scale = 20, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
-        var svg_habit    = d3.select('#habit').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
+        var origin_habits = [475, 300], scale = 20, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
+        var svg_habit    = d3.select('#habit').append('svg').append('g').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
         var color  = d3.scaleOrdinal(d3.schemeCategory20);
         var cubesGroup = svg_habit.append('g').attr('class', 'cubes');
         var mx, my, mouseX, mouseY;
@@ -12,10 +12,10 @@
             .z(function(d){ return d.z; })
             .rotateY( startAngle + Math.PI)
             .rotateX(-startAngle)
-            .origin(origin)
+            .origin(origin_habits)
             .scale(scale);
     
-        function processData(data, tt){
+        function processData_habits(data, tt){
     
             /* --------- CUBES ---------*/
     
@@ -142,12 +142,13 @@
                     cubesData.push(_cube);
                 }
             }
-            processData(cubes3D(cubesData), 1000);
+            processData_habits(cubes3D(cubesData), 1000);
         }
     
         function dragStart(){
             mx = d3.event.x;
             my = d3.event.y;
+            console.log('habits',mx,my)
         }
     
         function dragged(){
@@ -155,7 +156,7 @@
             mouseY = mouseY || 0;
             beta   = (d3.event.x - mx + mouseX) * Math.PI / 230 ;
             alpha  = (d3.event.y - my + mouseY) * Math.PI / 230  * (-1);
-            processData(cubes3D.rotateY(beta + startAngle + Math.PI ).rotateX(alpha - startAngle)(cubesData), 0);
+            processData_habits(cubes3D.rotateY(beta + startAngle + Math.PI ).rotateX(alpha - startAngle)(cubesData), 0);
         }
     
         function dragEnd(){
