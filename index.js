@@ -39,9 +39,9 @@ app.get('/', function(req, res){
   const habits = require('./app_integrations/_get_habits.js')
   const weight = require('./app_integrations/_get_weight.js')
 
-  Promise.all([rescue_time.df, habits.df, weight.df]).then((time, habits, weight) => {
-    console.log(weight)
-    res.render('pages/index', {'data':time, 'habit_data': habits, 'weight':weight})
+  Promise.all([rescue_time.df, habits.df, weight.df]).then((data) => {
+    console.log('weight in .get', data[2])
+    res.render('pages/index', {'data':data})//[0], 'habit_data': data[1], 'weight':data[2]})
 
  })
 });
