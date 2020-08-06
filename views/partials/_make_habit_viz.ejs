@@ -1,17 +1,17 @@
 <script>
-        var origin = [475, 300], scale = 20, j = 10, cubesData_habits = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
+        var origin = [475, 300], scale = 20, j = 10, cubesData_habits = [], alpha_habit = 0, beta_habit = 0, startAngle_habit = Math.PI/6;
         var svg_habit    = d3.select('#habit').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
         var color  = d3.scaleOrdinal(d3.schemeCategory20);
         var cubesGroup_habits = svg_habit.append('g').attr('class', 'cubes');
-        var mx, my, mouseX, mouseY;
+        var mx_habit, my_habit, mouseX_habit, mouseY_habit;
     
         var cubes3D_habits = d3._3d()
             .shape('CUBE')
             .x(function(d){ return d.x; })
             .y(function(d){ return d.y; })
             .z(function(d){ return d.z; })
-            .rotateY( startAngle + Math.PI)
-            .rotateX(-startAngle)
+            .rotateY( startAngle_habit + Math.PI)
+            .rotateX(-startAngle_habit)
             .origin(origin)
             .scale(scale);
     
@@ -87,7 +87,7 @@
     
                     //console.log(that.text().slice(that.text().length-3,that.text().length))
                     //interpolated after a slice of the String because the text is passed including the date...
-                    var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height)/2);
+                    var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height));
                     var v = () => getDayOfWeek(d.day)//d.day//d3.interpolateString(d.day, Math.abs(d.height));
     
                     return function(t){
@@ -146,22 +146,22 @@
         }
     
         function dragStart(){
-            mx = d3.event.x;
-            my = d3.event.y;
+            mx_habit = d3.event.x;
+            my_habit = d3.event.y;
             console.log('habits',mx,my)
         }
     
         function dragged(){
-            mouseX = mouseX || 0;
-            mouseY = mouseY || 0;
-            beta   = (d3.event.x - mx + mouseX) * Math.PI / 230 ;
-            alpha  = (d3.event.y - my + mouseY) * Math.PI / 230  * (-1);
-            processData_habits(cubes3D_habits.rotateY(beta + startAngle + Math.PI ).rotateX(alpha - startAngle)(cubesData_habits), 0);
+            mouseX_habit = mouseX_habit || 0;
+            mouseY_habit = mouseY_habit || 0;
+            beta_habit   = (d3.event.x - mx_habit + mouseX_habit) * Math.PI / 230 ;
+            alpha_habit  = (d3.event.y - my_habit + mouseY_habit) * Math.PI / 230  * (-1);
+            processData_habits(cubes3D_habits.rotateY(beta_habit + startAngle_habit + Math.PI ).rotateX(alpha_habit - startAngle_habit)(cubesData_habits), 0);
         }
     
         function dragEnd(){
-            mouseX = d3.event.x - mx + mouseX;
-            mouseY = d3.event.y - my + mouseY;
+            mouseX_habit = d3.event.x - mx_habit + mouseX_habit;
+            mouseY_habit = d3.event.y - my_habit + mouseY_habit;
         }
     
         function makeCube(h, x, z){

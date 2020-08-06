@@ -124,11 +124,12 @@
 
         }
         processData(cubes3D(cubesData), 1000);
+        
     }
 
     function dragStart(){
 
-        d3.event.sourceEvent.stopPropagation();
+
         mx = d3.event.x;
         my = d3.event.y;
                 console.log(mx,my)
