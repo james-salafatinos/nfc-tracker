@@ -126,20 +126,23 @@
     
             for(var z = -j; z <= j; z = z + 6){
                 for(var x = -j; x <= j; x = x + 3){
-                h = -1*nested_data_habits[cnt].value
                 
-                var _cube = makeCube(h, x, z);
-                    _cube.id = 'cube_' + cnt++;
-                    _cube.height = h;
-                    _cube.day = nested_data_habits[cnt-1].key
-                    console.log(_cube.day)
-    
-                    _z.push(z)
-                    _j.push(j)
-                    _x.push(x)
-                    _h.push(h)
-    
-                    cubesData_habits.push(_cube);
+                if (-1*nested_data_habits[cnt] != null){
+                    h = -1*nested_data_habits[cnt].value
+                    
+                    var _cube = makeCube(h, x, z);
+                        _cube.id = 'cube_' + cnt++;
+                        _cube.height = h;
+                        _cube.day = nested_data_habits[cnt-1].key
+                        console.log(_cube.day)
+        
+                        _z.push(z)
+                        _j.push(j)
+                        _x.push(x)
+                        _h.push(h)
+        
+                        cubesData_habits.push(_cube);
+                    }
                 }
             }
             processData_habits(cubes3D_habits(cubesData_habits), 1000);
