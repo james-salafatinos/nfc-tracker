@@ -139,13 +139,11 @@
                         }
 
                     if (isUndefined(nested_data_habits[cnt])){
-                        h = 0
                     } else{
                         h = -1*nested_data_habits[cnt].value
                     }
                     
                     if (isUndefined(nested_data_habits[cnt])){
-
                     } else{
                         var _cube = makeCube(h, x, z);
                         _cube.id = 'cube_' + cnt++;
