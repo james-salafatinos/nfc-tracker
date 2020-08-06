@@ -9,6 +9,7 @@ Get to it: http://nfc-tracker.herokuapp.com/
 3. Weight Data Integration
 4. NFC-tracking DB calls + Visualization
 5. Daily Rescue Time Visualization
+6. Rename viz scripts.ejs
 
 
 

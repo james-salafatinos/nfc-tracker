@@ -1,5 +1,5 @@
 <script>
-        var origin = [475, 300], scale = 20, j = 10, cubesData_habits = [], alpha_habit = 0, beta_habit = 0, startAngle_habit = Math.PI/6;
+        var origin = [475, 300], scale_habits = 20, j = 10, cubesData_habits = [], alpha_habit = 0, beta_habit = 0, startAngle_habit = Math.PI/6;
         var svg_habit    = d3.select('#habit').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
         var color  = d3.scaleOrdinal(d3.schemeCategory20);
         var cubesGroup_habits = svg_habit.append('g').attr('class', 'cubes');
@@ -13,7 +13,7 @@
             .rotateY( startAngle_habit + Math.PI)
             .rotateX(-startAngle_habit)
             .origin(origin)
-            .scale(scale);
+            .scale(scale_habits);
     
         function processData_habits(data, tt){
     
@@ -73,15 +73,15 @@
                 .attr('text-anchor', 'middle')
                 .attr('font-family', 'sans-serif')
                 .attr('font-weight', 'bolder')
-                .attr('x', function(d){ return origin[0] + scale * d.centroid.x })
-                .attr('y', function(d){ return origin[1] + scale * d.centroid.y })
+                .attr('x', function(d){ return origin[0] + scale_habits * d.centroid.x })
+                .attr('y', function(d){ return origin[1] + scale_habits * d.centroid.y })
                 .classed('_3d', true)
                 .merge(texts)
                 .transition().duration(tt)
                 .attr('fill', 'black')
                 .attr('stroke', 'none')
-                .attr('x', function(d){ return origin[0] + scale * d.centroid.x })
-                .attr('y', function(d){ return origin[1] + scale * d.centroid.y })
+                .attr('x', function(d){ return origin[0] + scale_habits * d.centroid.x })
+                .attr('y', function(d){ return origin[1] + scale_habits * d.centroid.y })
                 .tween('text', function(d){
                     var that = d3.select(this);
     
@@ -181,4 +181,4 @@
         d3.selectAll('button').on('click', init);
     
         init();
-    </script>
+    </script> 

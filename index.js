@@ -1,4 +1,3 @@
-
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
@@ -11,6 +10,8 @@ const app = express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   
+
+
 app.get('/api', function(req, res){
   
   //log query
@@ -36,11 +37,11 @@ app.get('/', function(req, res){
 
   const rescue_time = require('./app_integrations/_get_rescue_time.js')
   const habits = require('./app_integrations/_get_habits.js')
+  const weight = require('./app_integrations/_get_weight.js')
 
-  Promise.all([rescue_time.df, habits.df]).then((data) => {
-    Promise.resolve(habits.df).then((habit_data) => {
-      res.render('pages/index', {'data':data, 'habit_data': habit_data})
-  })
+  Promise.all([rescue_time.df, habits.df, weight.df]).then((time, habits, weight) => {
+    res.render('pages/index', {'data':time, 'habit_data': habits, 'weight':weight})
+
  })
 });
 

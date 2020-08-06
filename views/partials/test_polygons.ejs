@@ -1,11 +1,9 @@
-
-
 <script>
-    var origin = [480, 250], scale = 20, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
-    var svg    = d3.select('#weight').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
+    var origin = [480, 250], scale = 40, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
+    var svg_weight    = d3.select('#weight').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
     var color  = d3.scaleOrdinal(d3.schemeCategory20);
-    var cubesGroup = svg.append('g').attr('class', 'cubes');
-    var mx, my, mouseX, mouseY;
+    var cubesGroup = svg_weight.append('g').attr('class', 'cubes');
+    var mx_weight, my_weight, mouseX_weight, mouseY_weight;
 
     var cubes3D = d3._3d()
         .shape('CUBE')
@@ -56,18 +54,30 @@
                 return d.face === 'top';
             });
             //console.log(_t[0].centroid)
-            return [{height: d.height, centroid: _t[0].centroid}];
+            return [{height: d.height, centroid: _t[0].centroid, date: d.date}];
         });
 
-              texts
+
+
+        function getDayOfWeek(date) {
+        const dayOfWeek = new Date(date).getDay();    
+        return date.slice(0, date.length-5)
+        }
+        // return isNaN(dayOfWeek) ? null : 
+        //     ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'][dayOfWeek];
+        // }
+        
+
+        
+        texts
             .enter()
             .append('text')
             .attr('class', 'text')
             .attr('dy', '-.7em')
             .attr('text-anchor', 'middle')
             .attr('font-family', 'sans-serif')
-            .attr('font-weight', '100')
-            .attr('font-size', '10')
+            .attr('font-weight', '600')
+            .attr('font-size', '12')
             .attr('x', function(d){ return origin[0] + scale * d.centroid.x })
             .attr('y', function(d){ return origin[1] + scale * d.centroid.y })
             .classed('_3d', true)
@@ -79,11 +89,17 @@
             .attr('y', function(d){ return origin[1] + scale * d.centroid.y })
             .tween('text', function(d){
                 var that = d3.select(this);
-                var i = d3.interpolateNumber(+that.text(), Math.abs(d.height));
-                return function(t){
-                    that.text(i(t).toFixed(1));
-                };
-            });
+    
+            //console.log(that.text().slice(that.text().length-3,that.text().length))
+            //interpolated after a slice of the String because the text is passed including the date...
+            var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height));
+            var v = () => getDayOfWeek(d.date)//d.day//d3.interpolateString(d.day, Math.abs(d.height));
+
+            return function(t){
+                that.text(v(that) +'\u00A0'.repeat(90) + i(t).toFixed(1));
+                ;
+            };
+        });
 
         texts.exit().remove();
         /* --------- SORT TEXT & FACES ---------*/
@@ -93,15 +109,21 @@
     }
 
     function init_weight(){
-        fake_data = [171,172,173.3,177.4,172.2,175,171,
-        171,172,173.3,177.4,172.2,165,161,
-        161,172,173.3,167.4,162.2,165,171,
-        171,172,173.3,177.4,172.2,175,171]
-        
+        // fake_data = [171,172,173.3,177.4,172.2,175,171,
+        // 171,172,173.3,177.4,172.2,165,161,
+        // 161,172,173.3,167.4,162.2,165,171,
+        // 171,172,173.3,177.4,172.2,175,171]
+            //Group By the Date!
+        var nested_data_weight = d3.nest()
+        .key(function(d) { return d.Date; }) //cat
+        .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Weight']}); })
+        .entries(data_weight);
+
+
         cubesData = [];
         cumCubeH = [];
         var cnt = 0;
-        var stacked_cubes = 28
+        var stacked_cubes = 22
 
               	for(var i = 0; i < stacked_cubes; i++){
                     
@@ -109,20 +131,24 @@
 
 
                     cumCubeH.push(h)
-                    console.log('cumCubeH', cumCubeH)
+                    //console.log('cumCubeH', cumCubeH)
 
                     const cumulativeSum = (sum => value => sum += value)(0);
                     var offset = cumCubeH.map(cumulativeSum)[cumCubeH.length-1]
+                    // console.log('offset',offset)
 
-                    console.log('offset',offset)
-
+                    console.log('nested_weight',nested_data_weight)
+                    console.log('value', nested_data_weight[i]['value'])||0
                     
-                    var _cube = makeCube(h, 0, 0, offset||0, p = (fake_data[i]-100)/30 , m = (fake_data[i]-100)/30);
+                    var _cube = makeCube(h, 0, 0, offset||0, p = (nested_data_weight[i].value-160)/15 , m = (nested_data_weight[i].value-160)/15);
+                    console.log(_cube)
                     _cube.id = 'cube_' + cnt++;
-                    _cube.height = h;
+                    _cube.date = nested_data_weight[cnt-1].key
+                    _cube.height = nested_data_weight[i].value;
                     cubesData.push(_cube);
 
         }
+        console.log(cubesData)
         processData(cubes3D(cubesData), 1000);
         
     }
