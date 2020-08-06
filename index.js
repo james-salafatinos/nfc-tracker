@@ -40,6 +40,7 @@ app.get('/', function(req, res){
   const weight = require('./app_integrations/_get_weight.js')
 
   Promise.all([rescue_time.df, habits.df, weight.df]).then((time, habits, weight) => {
+    console.log(weight)
     res.render('pages/index', {'data':time, 'habit_data': habits, 'weight':weight})
 
  })
