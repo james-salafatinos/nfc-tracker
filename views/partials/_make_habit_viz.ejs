@@ -139,7 +139,7 @@
                         }
 
                     if (isUndefined(nested_data_habits[cnt])){
-                        
+
                     } else{
                         h = -1*nested_data_habits[cnt].value
                     }
@@ -147,9 +147,10 @@
                     if (isUndefined(nested_data_habits[cnt])){
                     } else{
                         var _cube = makeCube(h, x, z);
-                        _cube.id = 'cube_' + cnt++;
+
                         _cube.height = h;
-                        _cube.day = nested_data_habits[cnt-1].key
+                        _cube.day = nested_data_habits[cnt].key
+                        _cube.id = 'cube_' + cnt++;
                         console.log(_cube.day)
                     }
                    

@@ -40,7 +40,8 @@ const convertHabits = async () =>{
 
 
     //Create "Keep" filter for dates to display the 28 habit view
-    const date_entries = Array.from(Array(28).keys())
+    const date_entries = Array.from(Array(29).keys())
+
     const dates_allowed = date_entries.map(date => _get_date_str(shift_days = -date));
     filteredData = df.filter(function(d) {
         //Filter data for last 4 weeks
@@ -55,6 +56,7 @@ const convertHabits = async () =>{
 
 let df = convertHabits()
 console.log(df)
+
 
 exports.df = df;
     
