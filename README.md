@@ -1,5 +1,5 @@
 
-#About
+##About
 
 Get to it: http://nfc-tracker.herokuapp.com/
 
@@ -12,31 +12,31 @@ Get to it: http://nfc-tracker.herokuapp.com/
 
 
 
-#Installation
+##Installation
 
 
-#Features
+##Features
 - Multiple d3-3d js plots on one page
 
-#Wiki
+##Wiki
 
-#Support
-
-
-#License
+##Support
 
 
-#References 
-## Visualization Blogs used:
+##License
+
+
+##References 
+### Visualization Blogs used:
 Donut Rescue Time Graph:
 - https://www.d3-graph-gallery.com/graph/donut_label.html
 
 
-## Habits
+#### Habits
 
 
-# Notes
-## Challenges
+## Notes
+### Challenges
 - Use Google sheets
 - Theres just no good habit, sleep tracker, simple data tracker apps with an API
 - Setup:
@@ -47,6 +47,6 @@ Donut Rescue Time Graph:
         - This essentially adds my rows automatically for me to just tap checkboxes. Checkboxes can be encoded as 0 and 1 within google sheets. For example, with the macro, the app is lets me just click a click a checkbox if I did my habits, every day. 
 - Pro organization move is having the visualizations in a separate folder and calling them in the index.js file
     - <% include ../partials/test_polygons.ejs %>
-        *Note* This must be inside of an `<svg id = 'example_id'>` tag and the file goes like this: ` d3.select(#example_id).append('svg') `
-##Key to organization
+        *Note* This must be inside of an `<svg id = 'example_id'>` tag and the file goes like this: ` d3.select(##example_id).append('svg') `
+###Key to organization
 
