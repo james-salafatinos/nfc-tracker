@@ -130,9 +130,10 @@
                     h = -1*nested_data_habits[cnt].value
                     
                     var _cube = makeCube(h, x, z);
+   
                         _cube.height = h;
+                        _cube.day = nested_data_habits[cnt].key
                         _cube.id = 'cube_' + cnt++;
-                        _cube.day = nested_data_habits[cnt-1].key
                         console.log(_cube.day)
         
                         _z.push(z)
