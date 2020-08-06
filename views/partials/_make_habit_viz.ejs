@@ -129,7 +129,21 @@
                     console.log('error h call', nested_data_habits)
                     console.log('error h call', nested_data_habits[cnt])
                     console.log('error h call', nested_data_habits[cnt].value)
-                    h = -1*nested_data_habits[cnt].value
+
+                    
+                    function isUndefined(value){
+                            // Obtain `undefined` value that's
+                            // guaranteed to not have been re-assigned
+                            var undefined = void(0);
+                            return value === undefined;
+                        }
+
+                    if (isUndefined(nested_data_habits[cnt].value)){
+                        h = 0
+                    } else{
+                        h = -1*nested_data_habits[cnt].value
+                    }
+                    
                     
                     var _cube = makeCube(h, x, z);
                         _cube.id = 'cube_' + cnt++;
