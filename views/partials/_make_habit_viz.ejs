@@ -126,14 +126,15 @@
     
             for(var z = -j; z <= j; z = z + 6){
                 for(var x = -j; x <= j; x = x + 3){
-                
+                    console.log('error h call', nested_data_habits)
+                    console.log('error h call', nested_data_habits[cnt])
+                    console.log('error h call', nested_data_habits.value)
                     h = -1*nested_data_habits[cnt].value
                     
                     var _cube = makeCube(h, x, z);
-   
-                        _cube.height = h;
-                        _cube.day = nested_data_habits[cnt].key
                         _cube.id = 'cube_' + cnt++;
+                        _cube.height = h;
+                        _cube.day = nested_data_habits[cnt-1].key
                         console.log(_cube.day)
         
                         _z.push(z)
