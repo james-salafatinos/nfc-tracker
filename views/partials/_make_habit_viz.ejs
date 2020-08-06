@@ -122,17 +122,16 @@
                 .key(function(d) { return d.CalendarDate; }) //cat
                 .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Value']}); })
                 .entries(data_habits);
-            console.log(nested_data_habits)
+            console.log('habits nested data', nested_data_habits)
     
             for(var z = -j; z <= j; z = z + 6){
                 for(var x = -j; x <= j; x = x + 3){
                 
-                if (-1*nested_data_habits[cnt].value != null){
                     h = -1*nested_data_habits[cnt].value
                     
                     var _cube = makeCube(h, x, z);
-                        _cube.id = 'cube_' + cnt++;
                         _cube.height = h;
+                        _cube.id = 'cube_' + cnt++;
                         _cube.day = nested_data_habits[cnt-1].key
                         console.log(_cube.day)
         
@@ -143,7 +142,6 @@
         
                         cubesData_habits.push(_cube);
                     }
-                }
             }
             processData_habits(cubes3D_habits(cubesData_habits), 1000);
         }
