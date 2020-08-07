@@ -1,6 +1,6 @@
 <script>
 
-        var origin_heat = [480, 250], j = 7, points = [], alpha = 25, beta = 0, startAngle = Math.PI/4;
+        var origin_heat = [480, 250], j = 14, points = [], alpha = 25, beta = 0, startAngle = Math.PI/4;
         var svg_heat    = d3.select('#scatter').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
         var mx, my, mouseX, mouseY;
     
@@ -39,6 +39,21 @@
             //d3.selectAll('._3d').sort(d3._3d().sort);
     
         }
+
+        var nested_rescue_data = d3.nest()
+            .key(function(d) { return d.Date; })
+            .key(function(d) { return d.Activity; })
+            .rollup(function(v) { return {
+
+                time_total: d3.sum(v, function(d) {return d['Time Spent (seconds)']}),
+                productivity_total: d3.sum(v, function(d) {return d['Productivity']})
+                
+            }; })
+            .entries(data_rescue_day);
+            console.log(nested_rescue_data)
+
+        
+
     
         function colorize(d){
             var _y = (d[0].y + d[1].y + d[2].y + d[3].y)/4;
@@ -64,11 +79,19 @@
         }
     
         function init_heat(eq){
+            console.log('Length,', nested_rescue_data.length)
+            console.log('First index,', nested_rescue_data[0])
+            console.log('First set of values from index', nested_rescue_data[0]['values'])
+            console.log('First set of values from index', nested_rescue_data[0]['values'][0]['value'].time_total)
             points = [];
     
+          
+
+   
             for(var z = -j; z < j; z++){
                 for(var x = -j; x < j; x++){
                     points.push({x: x, y: eq(x, z), z: z});
+                    //console.log('heatPush', x, eq(x,z), z)
                 }
             }
     
@@ -82,18 +105,12 @@
         var change_cnt = 0
         function change(){
             var rn1 = Math.floor(d3.randomUniform(1, 12)());
-            console.log(rn1)
+            //console.log(rn1)
             
-           
-            function even(x,z) {
-                if ((x%2==0) && (z%2==0)){
-                    return d3.randomNormal(5,3)()
-                } else{
-                    return 0
-                }
-            }
+
+            
             var eqa = function(x, z){
-                return d3.randomNormal(5,3)()//even(x,z)//Math.cos(Math.sqrt(x*x+z*z)/5*Math.PI)*rn1;
+                return Math.cos(Math.sqrt(x*x+z*z)/5*Math.PI)*rn1;//nested_rescue_data//d3.randomNormal(5,3)()//even(x,z)//
             };
             init_heat(eqa);
         }

@@ -6,10 +6,12 @@ Get to it: http://nfc-tracker.herokuapp.com/
 ## Todo:
 1. Sync / make separate mouse trackers for the visualizations so they don't leave off after each other (i.e. if you spin another graph and come back to the graph you were spinning, it will jump to a different viewing angle)
 2. Sleep Integration + Visualization 
-3. Weight Data Integration
+3. :white_check_mark: Weight Data Integration
 4. NFC-tracking DB calls + Visualization
 5. Daily Rescue Time Visualization
 6. Rename viz scripts.ejs
+7. Put in console.logs ("Habits Successfully retrieved...") etc
+8. Use router instead
 
 
 

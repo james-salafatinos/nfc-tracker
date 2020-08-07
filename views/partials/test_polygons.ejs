@@ -137,17 +137,17 @@
                     var offset = cumCubeH.map(cumulativeSum)[cumCubeH.length-1]
                     // console.log('offset',offset)
 
-                    console.log('nested_weight',nested_data_weight)
+                    // console.log('nested_weight',nested_data_weight)
                     
                     var _cube = makeCube(h, 0, 0, offset||0, p = (nested_data_weight[i].value-160)/15 , m = (nested_data_weight[i].value-160)/15);
-                    console.log(_cube)
+                    //console.log(_cube)
                     _cube.id = 'cube_' + cnt++;
                     _cube.date = nested_data_weight[cnt-1].key
                     _cube.height = nested_data_weight[i].value;
                     cubesData.push(_cube);
 
         }
-        console.log(cubesData)
+        //console.log(cubesData)
         processData(cubes3D(cubesData), 1000);
         
     }
@@ -157,7 +157,7 @@
 
         mx = d3.event.x;
         my = d3.event.y;
-                console.log(mx,my)
+                //console.log(mx,my)
     }
 
     function dragged(){
@@ -175,7 +175,7 @@
     }
 
     function makeCube(h, x, z, offset, p, m){
-        var epsilon = .7
+        var epsilon = .8
     	var p = p;
         var m = m;
         var n = offset+epsilon;

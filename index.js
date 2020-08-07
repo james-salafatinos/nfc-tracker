@@ -32,15 +32,20 @@ app.get('/api', function(req, res){
 
 app.get('/', function(req, res){
   //log query
-  console.log(req.query)
+  //console.log(req.query)
   
 
   const rescue_time = require('./app_integrations/_get_rescue_time.js')
+  const rescue_time_day = require('./app_integrations/_get_rescue_time_day.js')
   const habits = require('./app_integrations/_get_habits.js')
   const weight = require('./app_integrations/_get_weight.js')
 
-  Promise.all([rescue_time.df, habits.df, weight.df]).then((data) => {
-    console.log('weight in .get', data[2])
+  Promise.all([rescue_time.df, habits.df, weight.df, rescue_time_day.df]).then((data) => {
+    //console.log('weight in .get', data[2])
+    if (data[3]){
+      console.log('Daily Rescue Time Retrieval...')
+    }
+   
     res.render('pages/index', {'data':data})//[0], 'habit_data': data[1], 'weight':data[2]})
 
  })
