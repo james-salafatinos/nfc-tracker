@@ -1,9 +1,13 @@
 
-console.log('Running...')
 const cheerio = require('cheerio')
 const axios = require('axios')
 const key = process.env.RESCUE_TIME_KEY || require('../config.json')['rescue_time_key']
 const d3 = require('d3')
+
+//For logging purposes
+var path = require('path');
+var scriptName = path.basename(__filename);
+console.log(`Running ${scriptName}...`)
 
 
 
@@ -40,15 +44,17 @@ const convertRescueTime = async () =>{
         return strDate
     }
     
-    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str()}&restrict_end=${_get_date_str()}&format=csv`
+    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str(-2)}&restrict_end=${_get_date_str()}&format=csv`
     // console.log(URL)
     // console.log(_get_date_str(-7))
     const response = await getRescueTime()
+    console.log(scriptName, response);
     let df = d3.csvParse(response['data'], d3.autoType)
     
     return df
 
 }
+
 
 let df = convertRescueTime()
 

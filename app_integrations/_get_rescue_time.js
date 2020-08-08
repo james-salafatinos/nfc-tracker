@@ -1,10 +1,13 @@
 
-console.log('Running...')
 const cheerio = require('cheerio')
 const axios = require('axios')
 const key = process.env.RESCUE_TIME_KEY || require('../config.json')['rescue_time_key']
 const d3 = require('d3')
 
+//For logging purposes
+var path = require('path');
+var scriptName = path.basename(__filename);
+console.log(`Running ${scriptName}...`)
 
 
 

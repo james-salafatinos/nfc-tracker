@@ -1,15 +1,17 @@
-var path = require('path');
 const cheerio = require('cheerio')
 const axios = require('axios')
 const d3 = require('d3')
 var request = require('request');
 
 //For logging purposes
+var path = require('path');
 var scriptName = path.basename(__filename);
 console.log(`Running ${scriptName}...`)
 
-URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv'
-const getHabits = async () => {
+
+
+URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv'
+const getSleep = async () => {
     //async request to rescue time server
     try{
         return await axios.get(URL)
@@ -20,8 +22,7 @@ const getHabits = async () => {
     }
 }
 
-const convertHabits = async () =>{
-
+const convertSleep  = async () =>{
         //async return response and d3 parse
         function _get_date_str(shift_days = 0){
             const today = new Date()
@@ -38,28 +39,26 @@ const convertHabits = async () =>{
             return strDate
         }
         
-    const response = await getHabits()
+    const response = await getSleep()
+    //console.log('_get_sleep response', response)
     let df = d3.csvParse(response.data, d3.autoType)
 
+    //Get list of Last 28 days that exist in the tracker
+    const date_entries = Array.from(Array(28).keys())
+    const dates_allowed = date_entries.map(date => _get_date_str(shift_days = -date)); 
 
-    //Create "Keep" filter for dates to display the 28 habit view
-    const date_entries = Array.from(Array(29).keys())
-
-    const dates_allowed = date_entries.map(date => _get_date_str(shift_days = -date));
+    //Actually do the filtering on the full dataset
     filteredData = df.filter(function(d) {
-        //Filter data for last 4 weeks
-        if (dates_allowed.includes(d.CalendarDate)){
+        //Filter data for last 4 weeks, for d.<> use the date field in the google sheet
+        if (dates_allowed.includes(d.Date)){
             return d
         }
     
     })
-    
+
     return filteredData
 }
 
-let df = convertHabits()
-//console.log(df)
-
+let df = convertSleep() 
 
 exports.df = df;
-    

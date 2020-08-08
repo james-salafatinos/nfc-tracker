@@ -1,8 +1,14 @@
-console.log('Running...')
+
 const cheerio = require('cheerio')
 const axios = require('axios')
 const d3 = require('d3')
 var request = require('request');
+
+//For logging purposes
+var path = require('path');
+var scriptName = path.basename(__filename);
+console.log(`Running ${scriptName}...`)
+
 
 
 URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYvOssSK6v8cAd9dxVxLIR08T2xHrLG-K8NT7lMTaCMYPgKcvzB_r1rIHrlpuITWxd4Q82XlQNDt5K/pub?output=csv'
@@ -42,7 +48,6 @@ const convertWeight  = async () =>{
     const date_entries = Array.from(Array(28).keys())
     const dates_allowed = date_entries.map(date => _get_date_str(shift_days = -date)); 
 
-    console.log(dates_allowed)
     //Actually do the filtering on the full dataset
     filteredData = df.filter(function(d) {
         //Filter data for last 4 weeks, for d.<> use the date field in the google sheet

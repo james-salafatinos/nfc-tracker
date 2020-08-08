@@ -8,6 +8,7 @@
     var data_habits = <%- JSON.stringify( data[1] ); %>
     var data_weight = <%- JSON.stringify( data[2] ); %>
     var data_rescue_day = <%- JSON.stringify( data[3] ); %>
+    var data_sleep = <%- JSON.stringify( data[4] ); %>
     //console.log(data_habits)
   </script>
 
@@ -45,24 +46,28 @@
 
 
 <svg width="860" height="500" id = 'habit'> 
-    <% include ../partials/_make_habit_viz.ejs %> -->
+    <% include ../partials/_make_habits_3dBar.ejs %> -->
     </svg>
 <svg width="860" height="600"  id="rescue_time">    
-    <% include ../partials/rescue_time_viz.ejs %> --> 
-
+    <% include ../partials/_make_rescuetime_dial.ejs %>
     </svg>
 
 <svg width="860" height="500" id="weight">    
 
-    <% include ../partials/test_polygons.ejs %> --> 
+    <% include ../partials/_make_weight_3dBar.ejs %> --> 
     </svg>
 
     
 <svg width="860" height="500" id="scatter">    
 
-    <% include ../partials/test_mesh.ejs %> --> 
+    <% include ../partials/_make_test_3dMesh.ejs %> --> 
     </svg>
 
+        
+<svg width="860" height="500" id="sleep">    
+        <% include ../partials/_make_sleep_3dBar.ejs %> --> 
+        </svg>
+    
 
 </body>
 <footer>
