@@ -80,7 +80,7 @@
         .enter()
         .append('path')
         .attr('d', arc_day)
-        .attr('fill', function(d){ return(color(d.data.key)) })
+        .attr('fill', function(d){ return(color_day(d.data.key)) })
         .attr("stroke", "black")
         .style("stroke-width", "1px")
         .style("opacity", 0.95)
