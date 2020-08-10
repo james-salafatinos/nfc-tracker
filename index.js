@@ -50,10 +50,11 @@ app.get('/', function(req, res){
     }
     if (data[3]){
       console.log('_get_rescue_time_day :: SUCCESS')
+      console.log('data4', data[3])
     }
     if (data[4]){
       console.log('_get_sleep :: SUCCESS')
-      console.log('data4', data[4])
+
     }
   
 
