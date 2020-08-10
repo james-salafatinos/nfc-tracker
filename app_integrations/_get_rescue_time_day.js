@@ -44,11 +44,13 @@ const convertRescueTime = async () =>{
         return strDate
     }
     
-    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str(-2)}&restrict_end=${_get_date_str()}&format=csv`
-    // console.log(URL)
-    // console.log(_get_date_str(-7))
+    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str()}&restrict_end=${_get_date_str()}&format=csv`
+    console.log(URL)
+
     const response = await getRescueTime()
-    console.log(scriptName, response);
+    //console.log(scriptName, response);
+
+
     let df = d3.csvParse(response['data'], d3.autoType)
     
     return df

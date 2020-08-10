@@ -53,6 +53,7 @@ app.get('/', function(req, res){
     }
     if (data[4]){
       console.log('_get_sleep :: SUCCESS')
+      console.log('data4', data[4])
     }
   
 

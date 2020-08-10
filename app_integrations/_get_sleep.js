@@ -44,8 +44,10 @@ const convertSleep  = async () =>{
     let df = d3.csvParse(response.data, d3.autoType)
 
     //Get list of Last 28 days that exist in the tracker
-    const date_entries = Array.from(Array(28).keys())
+    const date_entries = Array.from(Array(30).keys())
     const dates_allowed = date_entries.map(date => _get_date_str(shift_days = -date)); 
+    console.log('dates_allowed',dates_allowed)
+    
 
     //Actually do the filtering on the full dataset
     filteredData = df.filter(function(d) {
@@ -53,8 +55,9 @@ const convertSleep  = async () =>{
         if (dates_allowed.includes(d.Date)){
             return d
         }
-    
+
     })
+    
 
     return filteredData
 }
