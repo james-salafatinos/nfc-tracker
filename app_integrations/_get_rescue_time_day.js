@@ -2,6 +2,7 @@
 const cheerio = require('cheerio')
 const axios = require('axios')
 const key = process.env.RESCUE_TIME_KEY || require('../config.json')['rescue_time_key']
+
 const d3 = require('d3')
 
 //For logging purposes
@@ -44,7 +45,7 @@ const convertRescueTime = async () =>{
         return strDate
     }
     
-    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str()}&restrict_end=${_get_date_str()}&format=csv`
+    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str(-1)}&restrict_end=${_get_date_str(-1)}&format=csv`
     console.log(URL)
 
     const response = await getRescueTime()
