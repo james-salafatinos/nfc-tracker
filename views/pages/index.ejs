@@ -27,7 +27,6 @@
     <a type="button" class="btn btn-lg btn-default" href=""><span class="glyphicon glyphicon-flash"></span></a>
     <a type="button" class="btn btn-lg btn-primary" href=""><span class="glyphicon glyphicon-download"></span></a>
   </div>
-  <% include ../partials/form.ejs %> -->
 
 </div>
 
@@ -46,34 +45,34 @@
 
 
 
-<svg width="860" height="500" id = 'habit'> 
-    <% include ../partials/_make_habits_3dBar.ejs %> -->
-    </svg>
-<svg width="860" height="600"  id="rescue_time">    
-    <% include ../partials/_make_rescuetime_dial.ejs %>
-    </svg>
+        <svg width="860" height="500" id = 'habit'> 
+            <% include ../partials/_make_habits_3dBar.ejs %> -->
+            </svg>
+        <svg width="860" height="600"  id="rescue_time">    
+            <% include ../partials/_make_rescuetime_dial.ejs %>
+            </svg>
 
-<svg width="860" height="500" id="weight">    
+        <svg width="860" height="500" id="weight">    
 
-    <% include ../partials/_make_weight_3dBar.ejs %> --> 
-    </svg>
+            <% include ../partials/_make_weight_3dBar.ejs %> --> 
+            </svg>
 
+            
+        <svg width="860" height="500" id="scatter">    
+
+            <% include ../partials/_make_test_3dMesh.ejs %> --> 
+            </svg>
+
+                
+        <svg width="860" height="500" id="sleep">    
+                <% include ../partials/_make_sleep_3dBar.ejs %> --> 
+                </svg>
+
+        <svg width="860" height="600" id="rescue_time_day">    
+                <% include ../partials/_make_rescuetime_day_scatter.ejs %> 
+                </svg>
     
-<svg width="860" height="500" id="scatter">    
-
-    <% include ../partials/_make_test_3dMesh.ejs %> --> 
-    </svg>
-
-        
-<svg width="860" height="500" id="sleep">    
-        <% include ../partials/_make_sleep_3dBar.ejs %> --> 
-        </svg>
-
-<svg width="860" height="500" id="rescue_time_day">    
-        <% include ../partials/_make_rescuetime_day_scatter.ejs %> --> 
-        </svg>
-    
-</div>
+    </div>
 </body>
 <footer>
     
