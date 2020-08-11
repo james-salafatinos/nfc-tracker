@@ -36,6 +36,7 @@ const convertRescueTime = async () =>{
         //shift the days if we want to get another date for easy time range
         if (shift_days < 0){
             today.setDate(today.getDate()+shift_days)
+            today.setHours(today.getHours()-5)
         }
                 
         let strDate = 'Y-m-d'
@@ -45,7 +46,7 @@ const convertRescueTime = async () =>{
         return strDate
     }
     
-    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str(-1)}&restrict_end=${_get_date_str(-1)}&format=csv`
+    URL = `https://www.rescuetime.com/anapi/data?key=${key}&by=interval&restrict_begin=${_get_date_str()}&restrict_end=${_get_date_str()}&format=csv`
     console.log(URL)
 
     const response = await getRescueTime()
