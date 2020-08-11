@@ -74,4 +74,8 @@ app.get('/data', function(req,res){
   })
 })
 
+app.get('/article/:id', function(req , res){
+  res.render('article' + req.params.id);
+});
+
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))

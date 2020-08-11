@@ -1,10 +1,11 @@
-var path = require('path');
+
 const cheerio = require('cheerio')
 const axios = require('axios')
 const d3 = require('d3')
 var request = require('request');
 
 //For logging purposes
+var path = require('path');
 var scriptName = path.basename(__filename);
 console.log(`Running ${scriptName}...`)
 

@@ -7,7 +7,9 @@ exports.up = function(knex) {
         tbl.text('value',600)
         tbl.timestamps(true,true)
     })
+    
   };
+  
 
 exports.down = function(knex) {
       return knex.schema.dropTableIfExists('messages').dropTableIfExists('urls')

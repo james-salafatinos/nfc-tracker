@@ -5,13 +5,15 @@ Get to it: http://nfc-tracker.herokuapp.com/
 
 ## Todo:
 1. Untangle Weight and Test Mesh: Sync / make separate mouse trackers for the visualizations so they don't leave off after each other (i.e. if you spin another graph and come back to the graph you were spinning, it will jump to a different viewing angle)
-2. Sleep Integration + Visualization 
+2. :white_check_mark: Sleep Integration + Visualization 
 3. :white_check_mark: Weight Data Integration
 4. NFC-tracking DB calls + Visualization
-5. Daily Rescue Time Visualization
+5. :white_check_mark:  Daily Rescue Time Visualization
 6. :white_check_mark:  Rename viz scripts.ejs
 7. :white_check_mark: Put in console.logs ("Habits Successfully retrieved...") etc
 8. Use router instead for api
+9. :white_check_mark: Get Colors for Sleep Visualization
+
 
 
 
@@ -52,5 +54,12 @@ Donut Rescue Time Graph:
 - Pro organization move is having the visualizations in a separate folder and calling them in the index.js file
     - <% include ../partials/test_polygons.ejs %>
         *Note* This must be inside of an `<svg id = 'example_id'>` tag and the file goes like this: ` d3.select(##example_id).append('svg') `
-###Key to organization
+### Distributable
+- Distributed Public Short URLs
+- Accounts
+- 
 
+Choice of:
+- Data
+- Colors
+- Chart Types?
