@@ -8,12 +8,12 @@ var request = require('request');
 var path = require('path');
 var scriptName = path.basename(__filename);
 console.log(`Running ${scriptName}...`)
+//URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv'
 
-URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv'
-const getHabits = async () => {
+const getHabits = async (_url_) => {
     //async request to rescue time server
     try{
-        return await axios.get(URL)
+        return await axios.get(_url_)
         
     }
     catch (error) {
@@ -21,7 +21,7 @@ const getHabits = async () => {
     }
 }
 
-const convertHabits = async () =>{
+const convertHabits = async (_url_) =>{
 
         //async return response and d3 parse
         function _get_date_str(shift_days = 0){
@@ -39,7 +39,7 @@ const convertHabits = async () =>{
             return strDate
         }
         
-    const response = await getHabits()
+    const response = await getHabits(_url_)
     let df = d3.csvParse(response.data, d3.autoType)
 
 
@@ -58,9 +58,10 @@ const convertHabits = async () =>{
     return filteredData
 }
 
-let df = convertHabits()
+//let df = convertHabits()
 //console.log(df)
+//exports.df = df;
 
-
-exports.df = df;
-    
+module.exports.df = function(_url_){
+    return Promise.resolve(convertHabits(_url_));
+}
