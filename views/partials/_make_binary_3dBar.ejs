@@ -43,7 +43,7 @@
             .attr('class', 'cube')
             .attr('fill', function(d){ 
                 console.log('d',d.height)
-                if (d.height < -7){
+                if (d.height <= -1){
                     return d3.color(color.range()[2]); 
                 }  else{
                     return d3.color(color(d['Bad'])).darker(78); 
@@ -54,7 +54,7 @@
                 
             .attr('stroke', function(d){ 
                 console.log('d',d.height)
-                if (d.height < -7){
+                if (d.height <= -1){
                     return d3.color(color.range()[2]).darker(2); 
                 }  else{
                     return d3.color(color.range()[2]).darker(2); 
@@ -190,16 +190,6 @@
 
         for(var z = -j; z <= j; z = z + 6){
             for(var x = -j; x <= j; x = x + 3){
-                //console.log('error h call', nested_data_sleep)
-                // console.log('error h call', nested_data_sleep[cnt])
-                // console.log('error h call', nested_data_sleep[cnt].value)
-
-                
-
-                   //async return response and d3 parse
-
-
-                
 
                 function isUndefined(value){
                         // Obtain `undefined` value that's
@@ -221,7 +211,6 @@
                     
 
                     var _cube = makeCube(h, x, z);
-
                     _cube.height = h;
                     _cube.day = nested_data_sleep[cnt].key
                     _cube.id = 'cube_' + cnt++;
