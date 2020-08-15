@@ -2,19 +2,18 @@ const cheerio = require('cheerio')
 const axios = require('axios')
 const d3 = require('d3')
 var request = require('request');
-
 //For logging purposes
 var path = require('path');
 var scriptName = path.basename(__filename);
 console.log(`Running ${scriptName}...`)
+//URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv'
 
 
 
-URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv'
-const getSleep = async () => {
+const getSleep = async (_url_) => {
     //async request to rescue time server
     try{
-        return await axios.get(URL)
+        return await axios.get(_url_)
         
     }
     catch (error) {
@@ -22,7 +21,8 @@ const getSleep = async () => {
     }
 }
 
-const convertSleep  = async () =>{
+const convertSleep  = async (_url_) =>{
+    console.log('inside convertSleep', _url_)
         //async return response and d3 parse
         function _get_date_str(shift_days = 0){
             const today = new Date()
@@ -39,7 +39,7 @@ const convertSleep  = async () =>{
             return strDate
         }
         
-    const response = await getSleep()
+    const response = await getSleep(_url_)
     //console.log('_get_sleep response', response)
     let df = d3.csvParse(response.data, d3.autoType)
 
@@ -62,6 +62,7 @@ const convertSleep  = async () =>{
     return filteredData
 }
 
-let df = convertSleep() 
+module.exports.df = function(_url_){
+    return Promise.resolve(convertSleep(_url_));
+}
 
-exports.df = df;

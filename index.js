@@ -31,6 +31,7 @@ app.get('/api', function(req, res){
 
 
 app.get('/', function(req, res){
+  let u = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv'
   const rescue_time = require('./app_integrations/_get_rescue_time.js')
   const rescue_time_day = require('./app_integrations/_get_rescue_time_day.js')
   const habits = require('./app_integrations/_get_habits.js')
@@ -38,7 +39,7 @@ app.get('/', function(req, res){
   const sleep = require('./app_integrations/_get_sleep.js')
   
 
-  Promise.all([rescue_time.df, habits.df, weight.df, rescue_time_day.df, sleep.df]).then((data) => {
+  Promise.all([rescue_time.df, habits.df, weight.df, rescue_time_day.df, sleep.df(u)]).then((data) => {
     //console.log('weight in .get', data[2])
     if (data[0]){
       console.log('_get_rescue_time :: SUCCESS')
@@ -51,11 +52,14 @@ app.get('/', function(req, res){
     }
     if (data[3]){
       console.log('_get_rescue_time_day :: SUCCESS')
-      console.log('data4', data[3])
+      //console.log('data4', data[3])
     }
     if (data[4]){
       console.log('_get_sleep :: SUCCESS')
 
+    } else{
+      console.log('Data[4]', data[4])
+      console.log('_get_sleep :: FAILURE')
     }
   
 
