@@ -43,8 +43,13 @@ app.get('/', function(req, res){
   const sleep = require('./app_integrations/_get_sleep.js')
   
 
-  Promise.all([rescue_time.df, habits.df(U.habits_url), weight.df, rescue_time_day.df, sleep.df(U.sleep_url)]).then((data) => {
-    //console.log('weight in .get', data[2])
+  Promise.all([
+    rescue_time.df, 
+    habits.df(U.habits_url), 
+    weight.df, 
+    rescue_time_day.df, 
+    sleep.df(U.sleep_url)]).then((data) => {
+
     if (data[0]){
       console.log('_get_rescue_time :: SUCCESS')
     }
@@ -62,15 +67,33 @@ app.get('/', function(req, res){
       console.log('_get_sleep :: SUCCESS')
 
     } else{
-      console.log('Data[4]', data[4])
+      //console.log('Data[4]', data[4])
       console.log('_get_sleep :: FAILURE')
     }
   
 
-    res.render('pages/index', {'data':data})//[0], 'habit_data': data[1], 'weight':data[2]})
-
- })
+    res.render('pages/index', {'data':data})
+  })
 });
+
+app.get('/samantha', function(req, res){
+  const sheet = require('./app_integrations/_get_binary_sheet.js')
+  let U = {headaches_url:'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqgsxeKiU1_bjuRTQiG1nd7OwBJWX82Tt3yNGUHo2NznMiccxVEe0bJ13nilBW19HmPgVCrzyyOBnv/pub?output=csv',
+  }
+  Promise.all([
+    sheet.df(U.headaches_url)]).then((data) => {
+      if (data[0]){
+        console.log('_get_binary_sheet :: SUCCESS')
+      } else{
+        console.log('_get_binary_sheet :: FAILURE')
+      }
+
+      //res.send(JSON.stringify(data))
+        res.render('pages/index_samantha', {'data':data})
+    })
+  });
+
+
 
 app.get('/data', function(req,res){
   //get data from db
