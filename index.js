@@ -163,4 +163,11 @@ app.get('/article/:id', function(req , res){
   res.render('article' + req.params.id);
 });
 
+app.get('/profiles', function(req, res){
+  let data = {url : 'george'}
+  res.render('pages/profiles', {'data':data})
+  });
+
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
+
