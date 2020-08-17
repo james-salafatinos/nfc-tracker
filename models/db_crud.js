@@ -18,6 +18,11 @@ function find(){
     return db('logs')
 }
 
+//add
+async function addUser(obj){
+    return await db('users').insert(obj, ['id'])
+
+}
 
 //find users
 function findUser(id){
@@ -25,8 +30,3 @@ function findUser(id){
 }
 
 
-//add
-async function addUser(obj){
-    return await db('users').insert(obj, ['id'])
-
-}
