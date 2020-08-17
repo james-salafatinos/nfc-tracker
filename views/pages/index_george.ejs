@@ -4,11 +4,7 @@
   <% include ../partials/header.ejs %>
   <script type="text/javascript">
     //declare d3 variables
-    var data = <%- JSON.stringify( data[0] ); %>
-    var data_habits = <%- JSON.stringify( data[1] ); %>
-    var data_weight = <%- JSON.stringify( data[2] ); %>
-    var data_rescue_day = <%- JSON.stringify( data[3] ); %>
-    var data_sleep = <%- JSON.stringify( data[4] ); %>
+    var data_sleep = <%- JSON.stringify( data[0] ); %>
     //console.log(data_habits)
   </script>
 
@@ -33,8 +29,9 @@
 
 <!-- Visualization !-->
 <body>  
-  <% include ../partials/form.ejs %> 
+
     <div class="text-center">
+    <h1>George's Page</h1>
     <script src="https://unpkg.com/d3-3d/build/d3-3d.js"></script>
     <style type="text/css">
         button {
@@ -43,35 +40,12 @@
             top: 10px;
         }
     </style>
-
-
-
-        <svg width="860" height="500" id = 'habit'> 
-            <% include ../partials/_make_habits_3dBar.ejs %> -->
-            </svg>
-        <svg width="860" height="600"  id="rescue_time">    
-            <% include ../partials/_make_rescuetime_dial.ejs %>
-            </svg>
-
-        <svg width="860" height="500" id="weight">    
-
-            <% include ../partials/_make_weight_3dBar.ejs %> --> 
-            </svg>
-
-            
-        <svg width="860" height="500" id="scatter">    
-
-            <% include ../partials/_make_test_3dMesh.ejs %> --> 
-            </svg>
-
-                
+             
         <svg width="860" height="500" id="sleep">    
-                <% include ../partials/_make_sleep_3dBar.ejs %> --> 
+                <% include ../partials/_make_binary_3dBar.ejs %> --> 
                 </svg>
 
-        <svg width="860" height="600" id="rescue_time_day">    
-                <% include ../partials/_make_rescuetime_day_scatter.ejs %> --> 
-                </svg>
+
     
 </div>
 </body>

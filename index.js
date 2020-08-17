@@ -106,6 +106,23 @@ app.get('/samantha', function(req, res){
   });
 
 
+  app.get('/george', function(req, res){
+    const sheet = require('./app_integrations/_get_binary_sheet.js')
+    let U = {george_general:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9MuUyT9xEszCDaRzZWuFb3T5TwBBVzGgPYf9StwqVKdMTobe-QFSJ8MUfPeIX2g09zMznC0MmX_i/pub?output=csv',
+    }
+    Promise.all([
+      sheet.df(U.george_general)]).then((data) => {
+        if (data[0]){
+          console.log('_get_binary_sheet :: SUCCESS')
+        } else{
+          console.log('_get_binary_sheet :: FAILURE')
+        }
+  
+        //res.send(JSON.stringify(data))
+          res.render('pages/index_george', {'data':data})
+      })
+    });
+
 
 app.get('/data', function(req,res){
   //get data from db
