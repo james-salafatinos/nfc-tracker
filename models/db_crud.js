@@ -16,8 +16,8 @@ function find(){
     return db('logs')
 }
 
-function findByUser(id){
-    return db('logs')
-    .where({id})
-    .first()
+
+//find users
+function findUser(id){
+    return db('users')
 }

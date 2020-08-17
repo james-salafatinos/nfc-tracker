@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
-const logs_table = require('./models/db_crud.js')
+const db_crud = require('./models/db_crud.js')
 
 
 const app = express()
@@ -13,12 +13,10 @@ const app = express()
 
 
 app.get('/api', function(req, res){
-  
   //log query
   console.log(req.query)
-
   //add it to the database
-  logs_table.add(req.query)
+  db_crud.add(req.query)
   .then(obj =>{
     res.status(200).json(obj)
   })
@@ -35,7 +33,7 @@ app.get('/', function(req, res){
            habits_url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv'
   }
 
-  
+  //Gets all of the data 
   const rescue_time = require('./app_integrations/_get_rescue_time.js')
   const rescue_time_day = require('./app_integrations/_get_rescue_time_day.js')
   const habits = require('./app_integrations/_get_habits.js')
@@ -97,7 +95,7 @@ app.get('/samantha', function(req, res){
 
 app.get('/data', function(req,res){
   //get data from db
-  logs_table.find()
+  db_crud.find()
   .then(obj =>{
     res.status(200).json(obj)
   })
@@ -105,6 +103,19 @@ app.get('/data', function(req,res){
     res.status(500).json({message: 'Error finding in DB'})
   })
 })
+
+
+app.get('/data2', function(req,res){
+  //get data from db
+  db_crud.findUser()
+  .then(obj =>{
+    res.status(200).json(obj)
+  })
+  .catch(error =>{
+    res.status(500).json({message: 'Error finding Users in DB'})
+  })
+})
+
 
 app.get('/article/:id', function(req , res){
   res.render('article' + req.params.id);
