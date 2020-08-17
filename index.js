@@ -125,6 +125,13 @@ app.get('/samantha', function(req, res){
     });
 
 
+app.get('/signup', function(req, res){
+  let data = {}
+  res.render('pages/signup', {'data':data})
+
+  });
+
+    
 app.get('/data', function(req,res){
   //get data from db
   db_crud.find()
