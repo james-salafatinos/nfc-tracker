@@ -25,7 +25,7 @@ app.get('/api', function(req, res){
   })
 });
 
-app.get('/api/user', function(req, res){
+app.get('/api/addUser', function(req, res){
   //log query
   console.log(req.query)
   //add it to the database
@@ -119,7 +119,7 @@ app.get('/data', function(req,res){
 })
 
 
-app.get('/data2', function(req,res){
+app.get('/Users', function(req,res){
   //get data from db
   db_crud.findUser()
   .then(obj =>{
