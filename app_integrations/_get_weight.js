@@ -11,11 +11,11 @@ console.log(`Running ${scriptName}...`)
 
 
 
-URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYvOssSK6v8cAd9dxVxLIR08T2xHrLG-K8NT7lMTaCMYPgKcvzB_r1rIHrlpuITWxd4Q82XlQNDt5K/pub?output=csv'
-const getWeight = async () => {
+//URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYvOssSK6v8cAd9dxVxLIR08T2xHrLG-K8NT7lMTaCMYPgKcvzB_r1rIHrlpuITWxd4Q82XlQNDt5K/pub?output=csv'
+const getWeight = async (_url_) => {
     //async request to rescue time server
     try{
-        return await axios.get(URL)
+        return await axios.get(_url_)
         
     }
     catch (error) {
@@ -23,7 +23,7 @@ const getWeight = async () => {
     }
 }
 
-const convertWeight  = async () =>{
+const convertWeight  = async (_url_) =>{
 
         //async return response and d3 parse
         function _get_date_str(shift_days = 0){
@@ -41,7 +41,7 @@ const convertWeight  = async () =>{
             return strDate
         }
         
-    const response = await getWeight()
+    const response = await getWeight(_url_)
     let df = d3.csvParse(response.data, d3.autoType)
 
     //Get list of Last 28 days that exist in the tracker
@@ -60,6 +60,6 @@ const convertWeight  = async () =>{
     return filteredData
 }
 
-let df = convertWeight() 
-
-exports.df = df;
+module.exports.df = function(_url_){
+    return Promise.resolve(convertWeight(_url_));
+}

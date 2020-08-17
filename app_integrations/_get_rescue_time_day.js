@@ -23,7 +23,7 @@ const getRescueTime = async () => {
         
     }
     catch (error) {
-        console.log('Error on getting data from RescueTime')
+        console.log('Error on getting data from RescueTime_day')
     }
 }
 

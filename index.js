@@ -44,8 +44,11 @@ app.get('/api/addUser', function(req, res){
 
 
 app.get('/', function(req, res){
-  let U = {sleep_url:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv',
-           habits_url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv'
+  let U = {rescue_time_url:'',
+           rescue_time_day_url: '',
+           habits_url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv',
+           weight_url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYvOssSK6v8cAd9dxVxLIR08T2xHrLG-K8NT7lMTaCMYPgKcvzB_r1rIHrlpuITWxd4Q82XlQNDt5K/pub?output=csv',
+           sleep_url:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv',
   }
 
   //Gets all of the data 
@@ -59,7 +62,7 @@ app.get('/', function(req, res){
   Promise.all([
     rescue_time.df, 
     habits.df(U.habits_url), 
-    weight.df, 
+    weight.df(U.weight_url), 
     rescue_time_day.df, 
     sleep.df(U.sleep_url)]).then((data) => {
 
