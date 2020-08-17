@@ -3,7 +3,8 @@ const db = require('../db_config');
 
 module.exports = {
     add,
-    find
+    find,
+    findUser,
 }
 
 //add
