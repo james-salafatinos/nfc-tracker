@@ -23,8 +23,22 @@ app.get('/api', function(req, res){
   .catch(error =>{
     res.status(500).json({message: 'Error with adding to DB'})
   })
-  //res.render('pages/index')
 });
+
+app.get('/api/user', function(req, res){
+  //log query
+  console.log(req.query)
+  //add it to the database
+  db_crud.addUser(req.query)
+  .then(obj =>{
+    res.status(200).json(obj)
+  })
+  .catch(error =>{
+    res.status(500).json({message: 'Error with adding user to DB'})
+  })
+});
+
+
 
 
 

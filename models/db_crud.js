@@ -5,6 +5,7 @@ module.exports = {
     add,
     find,
     findUser,
+    addUser,
 }
 
 //add
@@ -21,4 +22,11 @@ function find(){
 //find users
 function findUser(id){
     return db('users')
+}
+
+
+//add
+async function addUser(obj){
+    return await db('users').insert(obj, ['id'])
+
 }
