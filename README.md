@@ -78,3 +78,6 @@ Choice of:
 - Data
 - Colors
 - Chart Types?
+
+Headaches:
+https://docs.google.com/spreadsheets/d/e/2PACX-1vTqgsxeKiU1_bjuRTQiG1nd7OwBJWX82Tt3yNGUHo2NznMiccxVEe0bJ13nilBW19HmPgVCrzyyOBnv/pub?output=csv
