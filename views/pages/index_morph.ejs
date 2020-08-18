@@ -4,8 +4,8 @@
   <% include ../partials/header.ejs %>
   <script type="text/javascript">
     //declare d3 variables
-    var data = <%- JSON.stringify( data ); %>
-    console.log(data)
+    var data_sleep = <%- JSON.stringify( data[0] ); %>
+
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js"></script>
@@ -40,6 +40,11 @@
             top: 10px;
         }
     </style>
+                 
+    <svg width="860" height="500" id="sleep">    
+        <% include ../partials/_make_binary_3dBar.ejs %> --> 
+    </svg>
+    
              
     
 </div>

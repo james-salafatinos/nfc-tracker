@@ -189,10 +189,22 @@ app.get('/profiles', function(req, res){
 
 
 app.get('/profiles/:username', function(req,res){
+  
   db_crud.findUserByUsername(req.params.username)
   .then(obj =>{
+    const sheet = require('./app_integrations/_get_binary_sheet.js')
+    let U = {user_url: obj.user_urls,}
+    Promise.all([
+      sheet.df(U.user_url)]).then((data) => {
+        if (data[0]){
+          console.log('_get_binary_sheet :: SUCCESS')
+        } else{
+          console.log('_get_binary_sheet :: FAILURE')
+        }
+
     res.status(200)  
-    res.render('pages/index_morph', {'data':obj})
+    res.render('pages/index_morph', {'data':data})
+  })
   })
   .catch(error =>{
     res.status(500).json({message: 'Error finding Users in DB'})
