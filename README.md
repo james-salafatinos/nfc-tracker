@@ -14,6 +14,15 @@ Get to it: http://nfc-tracker.herokuapp.com/
 8. Use router instead for api
 9. :white_check_mark: Get Colors for Sleep Visualization
 
+-----------
+10. Create database table and migrate for users
+    - In each table we will need to store a primery key id, a username, and the keys of each of the inputted google sheet urls
+11. The input form for the google sheet URLs must be as dircrete as possible, right before the two buttons under the profile pic. 
+12. When the user hooks up their other google sheets
+13. Stop google from thinking the website needs translation from Portuguese
+14. Fix the weird offset on the weight visualization causing the misalignment between date annotations and 3d rectangles
+15. Refactoring console.log checks, build checks
+
 
 
 

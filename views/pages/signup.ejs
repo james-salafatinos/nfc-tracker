@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/signup.css" />
+  <script type="text/javascript">
+  </script>
+</head>
+
+<body>
+<div class="jumbotron text-center">
+  <div class="container">
+    <a href="/" class="lang-logo">
+      <img src="/lang-logo.jpg">
+    </a>
+    <br>
+    <a type="button" class="btn btn-lg btn-default" href=""><span class="glyphicon glyphicon-flash"></span></a>
+    <a type="button" class="btn btn-lg btn-primary" href=""><span class="glyphicon glyphicon-download"></span></a>
+  </div>
+
+</div>
+
+
+<!-- Visualization !-->
+<div class="wrapper">
+    <form method ="post" class="login" action='/signup'>
+      <p class="title">Sign up</p>
+      <input type="text" placeholder="Username" autofocus/>
+      <i class="fa fa-user"></i>
+      <input type="text" placeholder="URL" autofocus/>
+      <i class="fa fa-url"></i>
+      <button>
+        <i class="spinner"></i>
+        <span class="state">Get me my own page</span>
+      </button>
+    </form>
+    </p>
+  </div>
+    
+</div>
+</body>
+<footer>
+
+</footer>
+</html>

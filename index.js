@@ -40,7 +40,11 @@ app.get('/api/addUser', function(req, res){
 });
 
 
-
+// Access the parse results as request.body
+app.post('/signup', function(req, res){
+  console.log(req.body);
+  res.send(req.body);
+});
 
 
 app.get('/', function(req, res){
@@ -157,11 +161,6 @@ app.get('/Users', function(req,res){
     res.status(500).json({message: 'Error finding Users in DB'})
   })
 })
-
-
-app.get('/article/:id', function(req , res){
-  res.render('article' + req.params.id);
-});
 
 app.get('/profiles', function(req, res){
   let data = {url : 'george'}
