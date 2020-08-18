@@ -180,15 +180,15 @@ app.get('/profiles', function(req, res){
   db_crud.findAllUsers()
   .then(obj =>{
     res.status(200)  
-    res.render('pages/profiles', {'data' : obj})
+    res.render('pages/profiles', {'data' : obj, 'stringdata' : JSON.stringify(obj)})
   })
   .catch(error =>{
     res.status(500).json({message: 'Error finding Users in DB'})
   })
   });
 
-app.get('/profiles/:username', function(req,res){
 
+app.get('/profiles/:username', function(req,res){
   db_crud.findUserByUsername(req.params.username)
   .then(obj =>{
     res.status(200)  
@@ -197,8 +197,6 @@ app.get('/profiles/:username', function(req,res){
   .catch(error =>{
     res.status(500).json({message: 'Error finding Users in DB'})
   })
-
-
 });
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
