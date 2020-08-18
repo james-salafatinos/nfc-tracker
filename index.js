@@ -16,6 +16,13 @@ const app = express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   
+
+
+//Use body parser to enable handling post requests
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+
 //API Definition
 var db_queries = require('./api/db_queries');
 var add_nfc = require('./api/add_nfc');
@@ -23,8 +30,6 @@ app.use('/api', db_queries);
 app.use('/api', add_nfc);
 
 
-//Use body parser to enable handling post requests
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // Signup post request containing the user name and 
 // url set, that posts to the database
@@ -41,6 +46,8 @@ app.post('/signup', function(req, res){
     res.status(500).json({message: 'Error with adding user to DB'})
   })
 })
+
+
 
 //Home page
 app.get('/', function(req, res){
@@ -88,12 +95,15 @@ app.get('/', function(req, res){
   })
 });
 
+
+
 //Simple signup page that renders a signup html, eventually
 //Leading to a post request for user and URL adding to database
 app.get('/signup', function(req, res){
   let data = {}
   res.render('pages/signup', {'data':data})
   });
+
 
 
 //Shows a list of all profiles that exist on the site
@@ -131,11 +141,6 @@ app.get('/profiles/:username', function(req,res){
     res.status(500).json({message: 'Error finding Users in DB'})
   })
 });
-
-
-
-
-
 
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))

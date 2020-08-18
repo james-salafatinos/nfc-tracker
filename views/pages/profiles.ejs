@@ -12,11 +12,10 @@
   </script>
 </head>
 
-<body>
 <div class="jumbotron text-center">
   <div class="container">
     <a href="/" class="lang-logo">
-      <img src="/lang-logo.jpg">
+      <img src="/profilepic.jpg">
     </a>
     <br>
     <a type="button" class="btn btn-lg btn-default" href=""><span class="glyphicon glyphicon-flash"></span></a>
@@ -44,27 +43,6 @@
 </body>
 <footer>
 <h1> Profiles </h1>
-
-<!--
-for(var i=0; i<data.length; i++){
-<ul id="items"><li>First</li><li>Second</li></ul>
-<input type="text" id="newItemText" />
-<input type="button" value="Add" onclick="addItem()">
-<script>
-  console.log('in Function')
-  function addItem() {
-    if( data[1].user === "testSamantha"){
-      console.log(data[1].user)
-    }
-    if (data[1].user === "test"){
-      console.log(data[1].user)
-    }
-    //window.location.href = '/' + dummyName
-  }
-  </script>
-};-->
-
-
 <ul>
   <% for(var i=0; i< data.length; i++) {%>
      <li><%= data[i].user %></li>
