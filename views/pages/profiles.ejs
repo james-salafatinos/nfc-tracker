@@ -7,7 +7,7 @@
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script type="text/javascript">
     //declare d3 variables
-    var data = <%- JSON.parse( JSON.stringify(data));%>
+    //var data = <%- JSON.parse( JSON.stringify(data));%>
     //console.log(data_habits)
   </script>
 </head>
@@ -45,14 +45,45 @@
 <footer>
 <h1> Profiles </h1>
 
+<!--
+for(var i=0; i<data.length; i++){
 <ul id="items"><li>First</li><li>Second</li></ul>
 <input type="text" id="newItemText" />
 <input type="button" value="Add" onclick="addItem()">
 <script>
+  console.log('in Function')
   function addItem() {
-    window.location.href = '/' + data.name2
-
+    if( data[1].user === "testSamantha"){
+      console.log(data[1].user)
+    }
+    if (data[1].user === "test"){
+      console.log(data[1].user)
+    }
+    //window.location.href = '/' + dummyName
   }
   </script>
-</footer>
+};-->
+
+
+<ul>
+  <% for(var i=0; i< data.length; i++) {%>
+     <li><%= data[i].user %></li>
+  <% } %>
+</ul>
+</ul>
+  <% for(var i=0; i< data.length; i++) {%>
+     <li>
+      <input type="button" value=<%= data[i].user %> onclick="addItem()">
+      <script>
+        function addItem() {//todo
+        }
+      </script>
+      
+    </li>
+  <% } %>
+</ul>
+
+
+
+  </footer>
 </html>
