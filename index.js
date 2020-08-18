@@ -51,7 +51,7 @@ app.post('/signup', function(req, res){
   db_crud.addUser(req.body)
   .then(obj =>{
     res.status(200)
-    res.send(`Your data page is ${body.user_urls}\n Your dashboard page is http://nfc-tracker.herokuapp.com/${body.user}`)
+    res.send(`Your url you provided was:\n ${body.user_urls}\n\n Your dashboard page is:\n http://nfc-tracker.herokuapp.com/${body.user}`)
   })
   .catch(error =>{
     res.status(500).json({message: 'Error with adding user to DB'})
@@ -103,8 +103,6 @@ app.get('/', function(req, res){
       //console.log('Data[4]', data[4])
       console.log('_get_sleep :: FAILURE')
     }
-  
-
     res.render('pages/index', {'data':data})
   })
 });
@@ -120,7 +118,6 @@ app.get('/samantha', function(req, res){
       } else{
         console.log('_get_binary_sheet :: FAILURE')
       }
-
       //res.send(JSON.stringify(data))
         res.render('pages/index_samantha', {'data':data})
     })
@@ -166,7 +163,7 @@ app.get('/data', function(req,res){
 
 app.get('/Users', function(req,res){
   //get data from db
-  db_crud.findUser()
+  db_crud.findAllUsers()
   .then(obj =>{
     res.status(200).json(obj)
   })
@@ -176,10 +173,33 @@ app.get('/Users', function(req,res){
 })
 
 app.get('/profiles', function(req, res){
-  let data = [{"id":1,"user":"test","user_urls":"test","created_at":"2020-08-17T19:36:20.652Z","updated_at":"2020-08-17T19:36:20.652Z"},
-  {"id":2,"user":"testSamantha","user_urls":"['tests', 'anothertest']","created_at":"2020-08-17T19:44:33.412Z","updated_at":"2020-08-17T19:44:33.412Z"}]
-  res.render('pages/profiles', {'data' : data})
+  //let data = [{"id":1,"user":"test","user_urls":"test","created_at":"2020-08-17T19:36:20.652Z","updated_at":"2020-08-17T19:36:20.652Z"},
+  //{"id":2,"user":"testSamantha","user_urls":"['tests', 'anothertest']","created_at":"2020-08-17T19:44:33.412Z","updated_at":"2020-08-17T19:44:33.412Z"}]
+  
+  //get data from db
+  db_crud.findAllUsers()
+  .then(obj =>{
+    res.status(200)  
+    res.render('pages/profiles', {'data' : obj})
+  })
+  .catch(error =>{
+    res.status(500).json({message: 'Error finding Users in DB'})
+  })
   });
+
+app.get('/profiles/:username', function(req,res){
+
+  db_crud.findUserByUsername(req.params.username)
+  .then(obj =>{
+    res.status(200)  
+    res.render('pages/index_morph', {'data':obj})
+  })
+  .catch(error =>{
+    res.status(500).json({message: 'Error finding Users in DB'})
+  })
+
+
+});
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
