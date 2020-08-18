@@ -73,14 +73,15 @@ for(var i=0; i<data.length; i++){
 </ul>
   <% for(var i=0; i< data.length; i++) {%>
      <li>
-      <input type="button" value=<%= data[i].user %> onclick="addItem()">
-      <script>
-        function addItem() {//todo
-        }
-      </script>
-      
+      <input type="button" value=<%= data[i].user %> onclick= "clicked( <%=i%>)">
     </li>
   <% } %>
+  <script>
+    function clicked(dataIndex) {
+      console.log(dataIndex)
+        window.location.href = '/'+'george'
+    }
+  </script>
 </ul>
 
 
