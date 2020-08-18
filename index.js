@@ -176,8 +176,9 @@ app.get('/Users', function(req,res){
 })
 
 app.get('/profiles', function(req, res){
-  let data = {url : 'george'}
-  res.render('pages/profiles', {'data':data})
+  let data = [{"id":1,"user":"test","user_urls":"test","created_at":"2020-08-17T19:36:20.652Z","updated_at":"2020-08-17T19:36:20.652Z"},
+  {"id":2,"user":"testSamantha","user_urls":"['tests', 'anothertest']","created_at":"2020-08-17T19:44:33.412Z","updated_at":"2020-08-17T19:44:33.412Z"}]
+  res.render('pages/profiles', {'data' : data})
   });
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
