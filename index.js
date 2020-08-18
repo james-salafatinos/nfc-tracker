@@ -164,8 +164,8 @@ app.get('/article/:id', function(req , res){
 });
 
 app.get('/profiles', function(req, res){
-  let data = {url : 'george'}
-  res.render('pages/profiles', {'data':data})
+  let data = {name1: 'george', name2: "samantha", name3: "james"}
+  res.render('pages/profiles', {'data' : JSON.stringify(data)})
   });
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))

@@ -7,7 +7,7 @@
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script type="text/javascript">
     //declare d3 variables
-    var data = data.url
+    var data = <%- JSON.parse( JSON.stringify(data));%>
     //console.log(data_habits)
   </script>
 </head>
@@ -50,8 +50,7 @@
 <input type="button" value="Add" onclick="addItem()">
 <script>
   function addItem() {
-    console.log(data)
-    window.location.href = '/' + data
+    window.location.href = '/' + data.name2
 
   }
   </script>
