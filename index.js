@@ -4,6 +4,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const db_crud = require('./models/db_crud.js')
+const bodyParser = require('body-parser');
 
 
 const app = express()
@@ -11,7 +12,8 @@ const app = express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   
-
+//Needed for post request
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api', function(req, res){
   //log query
@@ -42,9 +44,20 @@ app.get('/api/addUser', function(req, res){
 
 // Access the parse results as request.body
 app.post('/signup', function(req, res){
-  console.log(req.body);
-  res.send(req.body);
-});
+  const body = req.body
+  console.log('post body', body)
+  console.log('post user', body.user)
+
+  db_crud.addUser(req.body)
+  .then(obj =>{
+    res.status(200)
+    res.send(`Your data page is ${body.user_urls}\n Your dashboard page is http://nfc-tracker.herokuapp.com/${body.user}`)
+  })
+  .catch(error =>{
+    res.status(500).json({message: 'Error with adding user to DB'})
+  })
+
+})
 
 
 app.get('/', function(req, res){
@@ -163,8 +176,8 @@ app.get('/Users', function(req,res){
 })
 
 app.get('/profiles', function(req, res){
-  let data = {name1: 'george', name2: "samantha", name3: "james"}
-  res.render('pages/profiles', {'data' : JSON.stringify(data)})
+  let data = {url : 'george'}
+  res.render('pages/profiles', {'data':data})
   });
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
