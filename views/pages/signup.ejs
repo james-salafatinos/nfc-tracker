@@ -26,13 +26,13 @@
 
 <!-- Visualization !-->
 <div class="wrapper">
-    <form method ="post" class="login" action='/signup'>
+    <form method ="POST" class="login" action='/signup'>
       <p class="title">Sign up</p>
-      <input type="text" placeholder="Username" autofocus/>
+      <input type="text" placeholder="Username" name = 'user' autofocus/>
       <i class="fa fa-user"></i>
-      <input type="text" placeholder="URL" autofocus/>
+      <input type="text" placeholder="URL" name = 'user_urls' autofocus/>
       <i class="fa fa-url"></i>
-      <button>
+      <button type = 'submit'>
         <i class="spinner"></i>
         <span class="state">Get me my own page</span>
       </button>
