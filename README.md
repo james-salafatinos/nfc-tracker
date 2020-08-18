@@ -11,17 +11,23 @@ Get to it: http://nfc-tracker.herokuapp.com/
 5. :white_check_mark:  Daily Rescue Time Visualization
 6. :white_check_mark:  Rename viz scripts.ejs
 7. :white_check_mark: Put in console.logs ("Habits Successfully retrieved...") etc
-8. Use router instead for api
+8. Use router.get() instead of app.get() for api, and separate concerns in separate file
 9. :white_check_mark: Get Colors for Sleep Visualization
+10. :white_check_mark: Create database table and migrate for users
+11. :white_check_mark: Create a basic user flow so a user can sign up with URLS
+12. Stop google from thinking the website needs translation from Portuguese
+13. Fix the weird offset on the weight visualization causing the misalignment between date annotations and 3d rectangles
+14. Generalize the graphical generators and create API for certain visual/grouping features
 
------------
-10. Create database table and migrate for users
-    - In each table we will need to store a primery key id, a username, and the keys of each of the inputted google sheet urls
-11. The input form for the google sheet URLs must be as dircrete as possible, right before the two buttons under the profile pic. 
-12. When the user hooks up their other google sheets
-13. Stop google from thinking the website needs translation from Portuguese
-14. Fix the weird offset on the weight visualization causing the misalignment between date annotations and 3d rectangles
-15. Refactoring console.log checks, build checks
+
+## Workstreams:
+1. User sign up flow
+2. Google Sheets app creation flow
+3. Visualization customization
+4. User API construction (all data hooked up accessible via API)
+5. Site visual consistency
+
+
 
 
 
