@@ -1,11 +1,11 @@
 
-##About
+## About
 
 Get to it: http://nfc-tracker.herokuapp.com/
 
 
 
-##Installation
+## Installation
 1. Download all the files in this repo with `git clone https://github.com/james-salafatinos/nfc-tracker.git` on git bash
 2. Make sure you have NodeJS installed: https://nodejs.org/en/
 3. Run `npm install` inside the root folder to install the dependencies
@@ -39,31 +39,22 @@ Get to it: http://nfc-tracker.herokuapp.com/
 
 
 
-
-
-
-##Installation
-
-
-##Features
+## Features
 - Multiple d3-3d js plots on one page
 
-##Wiki
-
-##Support
-
-
-##License
+## Wiki
+...
+## Support
+...
 
 
-##References 
+## License
+MIT
+
+## References 
 ### Visualization Blogs used:
 Donut Rescue Time Graph:
 - https://www.d3-graph-gallery.com/graph/donut_label.html
-
-
-#### Habits
-
 
 ## Notes
 ### Challenges
