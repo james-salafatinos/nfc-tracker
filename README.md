@@ -9,6 +9,8 @@ Get to it: http://nfc-tracker.herokuapp.com/
 1. Download all the files in this repo with `git clone https://github.com/james-salafatinos/nfc-tracker.git` on git bash
 2. Make sure you have NodeJS installed: https://nodejs.org/en/
 3. Run `npm install` inside the root folder to install the dependencies
+4. Create a file in the root directory called "config.json" and put in your keys:
+    ```{"rescue_time_key": "<YOUR KEY HERE>"}```
     
 
 
