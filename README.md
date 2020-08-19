@@ -3,6 +3,15 @@
 
 Get to it: http://nfc-tracker.herokuapp.com/
 
+
+
+##Installation
+1. Download all the files in this repo with `git clone https://github.com/james-salafatinos/nfc-tracker.git` on git bash
+2. Make sure you have NodeJS installed: https://nodejs.org/en/
+3. Run `npm install` inside the root folder to install the dependencies
+    
+
+
 ## Todo:
 1. Untangle Weight and Test Mesh: Sync / make separate mouse trackers for the visualizations so they don't leave off after each other (i.e. if you spin another graph and come back to the graph you were spinning, it will jump to a different viewing angle)
 2. :white_check_mark: Sleep Integration + Visualization 
