@@ -1,200 +1,251 @@
 <script>
-    var origin = [480, 250], scale = 40, j = 10, cubesData = [], alpha = 0, beta = 0, startAngle = Math.PI/6;
-    var svg_weight    = d3.select('#weight').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
-    var color  = d3.scaleOrdinal(d3.schemeCategory20);
-    var cubesGroup = svg_weight.append('g').attr('class', 'cubes');
-    var mx_weight, my_weight, mouseX_weight, mouseY_weight;
+  var origin = [480, 280],
+    scale = 50,
+    j = 10,
+    cubesData = [],
+    alpha = 0,
+    beta = 0,
+    startAngle = Math.PI / 6;
+  var svg_weight = d3
+    .select("#weight")
+    .append("svg")
+    .call(
+      d3.drag().on("drag", dragged).on("start", dragStart).on("end", dragEnd)
+    )
+    .append("g");
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
+  var cubesGroup = svg_weight.append("g").attr("class", "cubes");
+  var mx_weight, my_weight, mouseX_weight, mouseY_weight;
 
-    var cubes3D = d3._3d()
-        .shape('CUBE')
-        .x(function(d){ return d.x; })
-        .y(function(d){ return d.y-7; })
-        .z(function(d){ return d.z; })
-        .rotateY( startAngle)
-        .rotateX(-startAngle)
-        .origin(origin)
-        .scale(scale);
+  var cubes3D = d3
+    ._3d()
+    .shape("CUBE")
+    .x(function (d) {
+      return d.x;
+    })
+    .y(function (d) {
+      return d.y - 4;
+    })
+    .z(function (d) {
+      return d.z;
+    })
+    .rotateY(startAngle)
+    .rotateX(-startAngle)
+    .origin(origin)
+    .scale(scale);
 
-    function processData(data, tt){
+  function processData(data, tt) {
+    /* --------- CUBES ---------*/
 
-        /* --------- CUBES ---------*/
+    var cubes = cubesGroup.selectAll("g.cube").data(data, function (d) {
+      return d.id;
+    });
 
-        var cubes = cubesGroup.selectAll('g.cube').data(data, function(d){ return d.id });
+    var ce = cubes
+      .enter()
+      .append("g")
+      .attr("class", "cube")
+      .attr("fill", function (d) {
+        return color(d.id);
+      })
+      .attr("stroke", function (d) {
+        return d3.color(color(d.id)).darker(2);
+      })
+      .merge(cubes)
+      .sort(cubes3D.sort);
 
-        var ce = cubes
-            .enter()
-            .append('g')
-            .attr('class', 'cube')
-            .attr('fill', function(d){ return color(d.id); })
-            .attr('stroke', function(d){ return d3.color(color(d.id)).darker(2); })
-            .merge(cubes)
-            .sort(cubes3D.sort);
+    cubes.exit().remove();
 
-        cubes.exit().remove();
+    /* --------- FACES ---------*/
 
-        /* --------- FACES ---------*/
-
-        var faces = cubes.merge(ce).selectAll('path.face').data(function(d){ return d.faces; }, function(d){ return d.face; });
-
-        faces.enter()
-            .append('path')
-            .attr('class', 'face')
-            .attr('fill-opacity', 1)
-            .classed('_3d', true)
-            .merge(faces)
-            .transition().duration(tt)
-            .attr('d', cubes3D.draw);
-
-        faces.exit().remove();
-
-        /* --------- TEXT ---------*/
-
-        var texts = cubes.merge(ce).selectAll('text.text').data(function(d){
-            var _t = d.faces.filter(function(d){
-                return d.face === 'top';
-            });
-            //console.log(_t[0].centroid)
-            return [{height: d.height, centroid: _t[0].centroid, date: d.date}];
-        });
-
-
-
-        function getDayOfWeek(date) {
-        const dayOfWeek = new Date(date).getDay();    
-        return date.slice(0, date.length-5)
+    var faces = cubes
+      .merge(ce)
+      .selectAll("path.face")
+      .data(
+        function (d) {
+          return d.faces;
+        },
+        function (d) {
+          return d.face;
         }
-        // return isNaN(dayOfWeek) ? null : 
-        //     ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'][dayOfWeek];
-        // }
-        
+      );
 
-        
-        texts
-            .enter()
-            .append('text')
-            .attr('class', 'text')
-            .attr('dy', '-.7em')
-            .attr('text-anchor', 'middle')
-            .attr('font-family', 'sans-serif')
-            .attr('font-weight', '600')
-            .attr('font-size', '12')
-            .attr('x', function(d){ return origin[0] + scale * d.centroid.x })
-            .attr('y', function(d){ return origin[1] + scale * d.centroid.y })
-            .classed('_3d', true)
-            .merge(texts)
-            .transition().duration(tt)
-            .attr('fill', 'black')
-            .attr('stroke', 'none')
-            .attr('x', function(d){ return origin[0] + scale * d.centroid.x })
-            .attr('y', function(d){ return origin[1] + scale * d.centroid.y })
-            .tween('text', function(d){
-                var that = d3.select(this);
-    
-            //console.log(that.text().slice(that.text().length-3,that.text().length))
-            //interpolated after a slice of the String because the text is passed including the date...
-            var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height));
-            var v = () => getDayOfWeek(d.date)//d.day//d3.interpolateString(d.day, Math.abs(d.height));
+    faces
+      .enter()
+      .append("path")
+      .attr("class", "face")
+      .attr("fill-opacity", 1)
+      .classed("_3d", true)
+      .merge(faces)
+      .transition()
+      .duration(tt)
+      .attr("d", cubes3D.draw);
 
-            return function(t){
-                that.text(v(that) +'\u00A0'.repeat(90) + i(t).toFixed(1));
-                ;
-            };
+    faces.exit().remove();
+
+    /* --------- TEXT ---------*/
+
+    var texts = cubes
+      .merge(ce)
+      .selectAll("text.text")
+      .data(function (d) {
+        var _t = d.faces.filter(function (d) {
+          return d.face === "top";
         });
+        return [{ height: d.height, centroid: _t[0].centroid, date: d.date }];
+      });
 
-        texts.exit().remove();
-        /* --------- SORT TEXT & FACES ---------*/
-
-        ce.selectAll('._3d').sort(d3._3d().sort);
-
+    function getDayOfWeek(date) {
+      const dayOfWeek = new Date(date).getDay();
+      return date.slice(0, date.length - 5);
     }
+    // return isNaN(dayOfWeek) ? null :
+    //     ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'][dayOfWeek];
+    // }
 
-    function init_weight(){
-        // fake_data = [171,172,173.3,177.4,172.2,175,171,
-        // 171,172,173.3,177.4,172.2,165,161,
-        // 161,172,173.3,167.4,162.2,165,171,
-        // 171,172,173.3,177.4,172.2,175,171]
-            //Group By the Date!
-        var nested_data_weight = d3.nest()
-        .key(function(d) { return d.Date; }) //cat
-        .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Weight']}); })
-        .entries(data_weight);
+    texts
+      .enter()
+      .append("text")
+      .attr("class", "text")
+      .attr("dy", "-.7em")
+      .attr("text-anchor", "middle")
+      .attr("font-family", "sans-serif")
+      .attr("font-weight", "600")
+      .attr("font-size", "12")
+      .attr("x", function (d) {
+        return origin[0] + scale * d.centroid.x;
+      })
+      .attr("y", function (d) {
+        return origin[1] + scale * d.centroid.y;
+      })
+      .classed("_3d", true)
+      .merge(texts)
+      .transition()
+      .duration(tt)
+      .attr("fill", "black")
+      .attr("stroke", "none")
+      .attr("x", function (d) {
+        return origin[0] + scale * d.centroid.x;
+      })
+      .attr("y", function (d) {
+        return origin[1] + scale * d.centroid.y;
+      })
+      .tween("text", function (d) {
+        var that = d3.select(this);
 
+        //console.log(that.text().slice(that.text().length-3,that.text().length))
+        //interpolated after a slice of the String because the text is passed including the date...
+        var i = d3.interpolateNumber(
+          +that.text().slice(that.text().length - 3, that.text().length),
+          Math.abs(d.height)
+        );
+        var v = () => getDayOfWeek(d.date); //d.day//d3.interpolateString(d.day, Math.abs(d.height));
 
-        cubesData = [];
-        cumCubeH = [];
-        var cnt = 0;
-        var stacked_cubes = 21
+        return function (t) {
+          that.text(v(that) + "\u00A0".repeat(90) + i(t).toFixed(1));
+        };
+      });
 
-              	for(var i = 0; i < stacked_cubes; i++){
-                    
-                    var h = .5
+    texts.exit().remove();
+    /* --------- SORT TEXT & FACES ---------*/
 
+    ce.selectAll("._3d").sort(d3._3d().sort);
+  }
 
-                    cumCubeH.push(h)
-                    //console.log('cumCubeH', cumCubeH)
+  function init_weight() {
+    // fake_data = [171,172,173.3,177.4,172.2,175,171,
+    // 171,172,173.3,177.4,172.2,165,161,
+    // 161,172,173.3,167.4,162.2,165,171,
+    // 171,172,173.3,177.4,172.2,175,171]
+    //Group By the Date!
+    var nested_data_weight = d3
+      .nest()
+      .key(function (d) {
+        return d.Date;
+      }) //cat
+      .rollup(function (cat) {
+        return d3.sum(cat, function (d) {
+          return d["Weight"];
+        });
+      })
+      .entries(data_weight);
 
-                    const cumulativeSum = (sum => value => sum += value)(0);
-                    var offset = cumCubeH.map(cumulativeSum)[cumCubeH.length-1]
-                    // console.log('offset',offset)
+    cubesData = [];
+    cumCubeH = [];
+    var cnt = 0;
+    var stacked_cubes = 14;
 
-                    // console.log('nested_weight',nested_data_weight)
-                    
-                    var _cube = makeCube(h, 0, 0, offset||0, p = (nested_data_weight[i].value-160)/15 , m = (nested_data_weight[i].value-160)/15);
-                    //console.log(_cube)
-                    _cube.id = 'cube_' + cnt++;
-                    _cube.date = nested_data_weight[cnt-1].key
-                    _cube.height = nested_data_weight[i].value;
-                    cubesData.push(_cube);
+    for (var i = 0; i < stacked_cubes; i++) {
+      var h = 0.5;
 
-        }
-        //console.log(cubesData)
-        processData(cubes3D(cubesData), 1000);
-        
+      cumCubeH.push(h);
+      //console.log('cumCubeH', cumCubeH)
+
+      const cumulativeSum = ((sum) => (value) => (sum += value))(0);
+      var offset = cumCubeH.map(cumulativeSum)[cumCubeH.length - 1];
+      // console.log('offset',offset)
+      // console.log('nested_weight',nested_data_weight)
+
+      var _cube = makeCube(
+        h,
+        0,
+        0,
+        offset || 0,
+        (p = nested_data_weight[i].value - 160) / 15,
+        (m = nested_data_weight[i].value - 160) / 15
+      );
+      //console.log(_cube)
+      _cube.id = "cube_" + cnt++;
+      _cube.date = nested_data_weight[cnt - 1].key;
+      _cube.height = nested_data_weight[i].value;
+      cubesData.push(_cube);
     }
+    //console.log(cubesData)
+    processData(cubes3D(cubesData), 1000);
+  }
 
-    function dragStart(){
+  function dragStart() {
+    mx = d3.event.x;
+    my = d3.event.y;
+    //console.log(mx,my)
+  }
 
+  function dragged() {
+    mouseX = mouseX || 0;
+    mouseY = mouseY || 0;
+    beta = ((d3.event.x - mx + mouseX) * Math.PI) / 230;
+    alpha = (((d3.event.y - my + mouseY) * Math.PI) / 230) * -1;
+    processData(
+      cubes3D.rotateY(beta + startAngle).rotateX(alpha - startAngle)(cubesData),
+      0
+    );
+  }
 
-        mx = d3.event.x;
-        my = d3.event.y;
-                //console.log(mx,my)
-    }
+  function dragEnd() {
+    mouseX = d3.event.x - mx + mouseX;
+    mouseY = d3.event.y - my + mouseY;
+  }
 
-    function dragged(){
-        mouseX = mouseX || 0;
-        mouseY = mouseY || 0;
-        beta   = (d3.event.x - mx + mouseX) * Math.PI / 230 ;
-        alpha  = (d3.event.y - my + mouseY) * Math.PI / 230  * (-1);
-        processData(cubes3D.rotateY(beta + startAngle).rotateX(alpha - startAngle)(cubesData), 0);
-    }
+  function makeCube(h, x, z, offset, p, m) {
+    var epsilon = 0.9;
+    var p = p;
+    var m = m;
+    var n = offset + epsilon;
+    var h = h + offset;
 
-    function dragEnd(){
-        mouseX = d3.event.x - mx + mouseX;
-        mouseY = d3.event.y - my + mouseY;
+    return [
+      { x: x - 1 * p, y: h, z: z + 1 * p }, // FRONT TOP LEFT
+      { x: x - 1 * m, y: n, z: z + 1 * m }, // FRONT BOTTOM LEFT
+      { x: x + 1 * m, y: n, z: z + 1 * m }, // FRONT BOTTOM RIGHT
+      { x: x + 1 * p, y: h, z: z + 1 * p }, // FRONT TOP RIGHT
+      { x: x - 1 * p, y: h, z: z - 1 * p }, // BACK  TOP LEFT
+      { x: x - 1 * m, y: n, z: z - 1 * m }, // BACK  BOTTOM LEFT
+      { x: x + 1 * m, y: n, z: z - 1 * m }, // BACK  BOTTOM RIGHT
+      { x: x + 1 * p, y: h, z: z - 1 * p }, // BACK  TOP RIGHT
+    ];
+  }
 
-    }
+  d3.selectAll("button").on("click", init);
 
-    function makeCube(h, x, z, offset, p, m){
-        var epsilon = .8
-    	var p = p;
-        var m = m;
-        var n = offset+epsilon;
-        var h = h+offset;
-        
-    
-        return [
-            {x: x - 1*p, y: h, z: z + 1*p}, // FRONT TOP LEFT
-            {x: x - 1*m, y: n, z: z + 1*m}, // FRONT BOTTOM LEFT
-            {x: x + 1*m, y: n, z: z + 1*m}, // FRONT BOTTOM RIGHT
-            {x: x + 1*p, y: h, z: z + 1*p}, // FRONT TOP RIGHT
-            {x: x - 1*p, y: h, z: z - 1*p}, // BACK  TOP LEFT
-            {x: x - 1*m, y: n, z: z - 1*m}, // BACK  BOTTOM LEFT
-            {x: x + 1*m, y: n, z: z - 1*m}, // BACK  BOTTOM RIGHT
-            {x: x + 1*p, y: h, z: z - 1*p}, // BACK  TOP RIGHT
-        ];
-    }
-
-    d3.selectAll('button').on('click', init);
-
-    init_weight();
+  init_weight();
 </script>
