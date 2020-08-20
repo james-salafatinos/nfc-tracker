@@ -2,8 +2,8 @@ const ds = require("./app_integrations/DataSource");
 const helpers = require("./app_integrations/helpers");
 
 let urls = {
-  rescue_time_url: "",
-  rescue_time_day_url: "",
+  rescue_time_url: helpers.get_rescue_time_url(-7),
+  rescue_time_day_url: helpers.get_rescue_time_url(0),
   habits_url:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv",
   weight_url:
@@ -22,17 +22,39 @@ sleep = new ds(
 habits = new ds(
   urls.habits_url,
   (key = ""),
-  (date_span = 30),
+  (date_span = 29),
   (date_field = "CalendarDate")
 );
 
 weight = new ds(
   urls.weight_url,
   (key = ""),
-  (date_span = 30),
+  (date_span = 28),
   (date_field = "Date")
 );
 
-Promise.all([sleep.fetch(), habits.fetch(), weight.fetch()]).then((data) => {
+rescue_time = new ds(
+  urls.rescue_time_url,
+  (key = ""),
+  (date_span = 10),
+  (date_field = "Date"),
+  (no_filter = true)
+);
+
+rescue_time_day = new ds(
+  urls.rescue_time_day_url,
+  (key = ""),
+  (date_span = 10),
+  (date_field = "Date"),
+  (no_filter = true)
+);
+
+Promise.all([
+  sleep.fetch(),
+  habits.fetch(),
+  weight.fetch(),
+  rescue_time.fetch(),
+  rescue_time_day.fetch(),
+]).then((data) => {
   helpers.validate(data);
 });
