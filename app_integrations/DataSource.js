@@ -1,8 +1,8 @@
-const helpers = require("./app_integrations/helpers");
+const helpers = require("./helpers");
 const d3 = require("d3");
 
 class DataSource {
-  constructor(url, key = "", date_span = 30) {
+  constructor(url, key = "", date_span = 30, date_field) {
     //Given
     this.url = url;
     this.key = key;
@@ -10,6 +10,7 @@ class DataSource {
     //Internal
     this.column_names = [];
     this.viz_data = {};
+    this.date_field = date_field;
   }
 
   _grab_url() {
@@ -29,8 +30,9 @@ class DataSource {
   _filter() {
     //Filter the data based on the date span
     let date_span = this.date_span;
+    let date_field = this.date_field;
     let filteredData = this.df.filter(function (d) {
-      if (date_span.includes(d.Date)) {
+      if (date_span.includes(d[date_field])) {
         return d;
       }
     });

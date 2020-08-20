@@ -22,3 +22,5 @@ config.json
 
 test.json
 *.csv
+
+test*.js

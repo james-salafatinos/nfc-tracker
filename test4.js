@@ -1,24 +1,38 @@
-const ds = require("./DataSource");
+const ds = require("./app_integrations/DataSource");
+const helpers = require("./app_integrations/helpers");
 
-_url_ =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv";
+let urls = {
+  rescue_time_url: "",
+  rescue_time_day_url: "",
+  habits_url:
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv",
+  weight_url:
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTYvOssSK6v8cAd9dxVxLIR08T2xHrLG-K8NT7lMTaCMYPgKcvzB_r1rIHrlpuITWxd4Q82XlQNDt5K/pub?output=csv",
+  sleep_url:
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv",
+};
 
-_url_2 =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv";
-sleep = new ds(_url_, (key = ""), (date_span = 30));
-habits = new ds(_url_2, (key = ""), (date_span = 30));
+sleep = new ds(
+  urls.sleep_url,
+  (key = ""),
+  (date_span = 30),
+  (date_field = "Date")
+);
 
-Promise.all([sleep.fetch(), habits.fetch()]).then((data) => {
-  if (data[0]) {
-    //console.log(data[0]);
-    console.log("sleep :: SUCCESS");
-  } else {
-    console.log("sleep :: FAILURE");
-  }
-  if (data[1]) {
-    console.log(data[1]);
-    console.log("habits :: SUCCESS");
-  } else {
-    console.log("habits :: FAILURE");
-  }
+habits = new ds(
+  urls.habits_url,
+  (key = ""),
+  (date_span = 30),
+  (date_field = "CalendarDate")
+);
+
+weight = new ds(
+  urls.weight_url,
+  (key = ""),
+  (date_span = 30),
+  (date_field = "Date")
+);
+
+Promise.all([sleep.fetch(), habits.fetch(), weight.fetch()]).then((data) => {
+  helpers.validate(data);
 });

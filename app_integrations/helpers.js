@@ -32,8 +32,28 @@ const get_date_span = function (number_of_dates = 30) {
   return dates_allowed;
 };
 
+//Validates the integrations
+const validate = function (potential_data) {
+  if (!potential_data) {
+    throw "No Data Passed to Validation...";
+  }
+  console.log(`Validating ${potential_data.length} data sources...`);
+  for (let i = 0; i < potential_data.length; i++) {
+    if (potential_data[i].length > 0) {
+      console.log(
+        `Data Source [${i}] has ${potential_data[i].length} items :: SUCCESS )`
+      );
+    } else {
+      console.log(
+        `Data Source [${i}] has ${potential_data[i].length} items:: FAILURE )`
+      );
+    }
+  }
+};
+
 module.exports = {
   grab_url: grab_url,
   get_date_as_str: get_date_as_str,
   get_date_span: get_date_span,
+  validate: validate,
 };
