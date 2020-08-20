@@ -8,7 +8,7 @@ module.exports = {
   addUser,
   findUserById,
   findUserByUsername,
-  update,
+  //   update,
 };
 
 //add
@@ -40,12 +40,16 @@ function findUserByUsername(user) {
   return db("users").where({ user }).first();
 }
 
-function update(id, changes) {
-  console.log("In crud update");
-  return db("users")
-    .where({ id })
-    .update(changes)
-    .then(() => {
-      return findUserById(id);
-    });
-}
+// function update(id, changes) {
+//   findUserById(id).then((obj) => {
+//     console.log(obj);
+//   });
+//   console.log("In crud update");
+//   return db("users")
+//     .where({ id })
+//     .update(changes)
+//     .then(() => {
+//       console.log("in then");
+//       return findUserById(id);
+//     });
+// }
