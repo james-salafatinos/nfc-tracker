@@ -5,7 +5,6 @@ const PORT = process.env.PORT || 5000;
 const db_crud = require("./models/db_crud.js");
 const bodyParser = require("body-parser");
 const helpers = require("./app_integrations/helpers");
-const ds = require("./app_integrations/DataSource");
 
 //For logging
 var scriptName = path.basename(__filename);
@@ -47,9 +46,9 @@ app.post("/signup", function (req, res) {
 
 //Home page
 app.get("/", function (req, res) {
-  let urls = {
-    rescue_time_url: helpers.get_rescue_time_url(-7),
-    rescue_time_day_url: helpers.get_rescue_time_url(0),
+  let U = {
+    rescue_time_url: "",
+    rescue_time_day_url: "",
     habits_url:
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEatFcvB9zGP-TUtCFCdXbUboT1_7ZW-7j1ZiYu3ayTvJAqRJ9n54QQrTtYHdaZi3bjv4oVAQ6bHF/pub?gid=0&single=true&output=csv",
     weight_url:
@@ -57,57 +56,45 @@ app.get("/", function (req, res) {
     sleep_url:
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSyBOLNq8rRq9TXblX7P-hPjUgFV9E5hEIQubr16xAjsG9w4MN3hCEKyTX1Q2j94L9_ME-ecCmxiD5Q/pub?&output=csv",
   };
-
-  sleep = new ds(
-    urls.sleep_url,
-    (key = ""),
-    (date_span = 30),
-    (date_field = "Date")
-  );
-
-  habits = new ds(
-    urls.habits_url,
-    (key = ""),
-    (date_span = 29),
-    (date_field = "CalendarDate")
-  );
-
-  weight = new ds(
-    urls.weight_url,
-    (key = ""),
-    (date_span = 28),
-    (date_field = "Date")
-  );
-
-  rescue_time = new ds(
-    urls.rescue_time_url,
-    (key = ""),
-    (date_span = 10),
-    (date_field = "Date"),
-    (no_filter = true)
-  );
-
-  rescue_time_day = new ds(
-    urls.rescue_time_day_url,
-    (key = ""),
-    (date_span = 10),
-    (date_field = "Date"),
-    (no_filter = true)
-  );
-
+  //Gets all of the data
+  const rescue_time = require("./app_integrations/_get_rescue_time.js");
+  const rescue_time_day = require("./app_integrations/_get_rescue_time_day.js");
+  const habits = require("./app_integrations/_get_habits.js");
+  const weight = require("./app_integrations/_get_weight.js");
+  const sleep = require("./app_integrations/_get_sleep.js");
+  //Handles waiting for the app integrations to finish
   Promise.all([
-    rescue_time.fetch(),
-    habits.fetch(),
-    weight.fetch(),
-    rescue_time_day.fetch(),
-    sleep.fetch(),
+    rescue_time.df,
+    habits.df(U.habits_url),
+    weight.df(U.weight_url),
+    rescue_time_day.df,
+    sleep.df(U.sleep_url),
   ]).then((data) => {
     helpers.validate(data);
-
+    if (data[0]) {
+      console.log("_get_rescue_time :: SUCCESS");
+    }
+    if (data[1]) {
+      console.log("_get_habits :: SUCCESS");
+    }
+    if (data[2]) {
+      console.log("_get_weight :: SUCCESS");
+    }
+    if (data[3]) {
+      console.log("_get_rescue_time_day :: SUCCESS");
+      //console.log('data4', data[3])
+    }
+    if (data[4]) {
+      console.log("_get_sleep :: SUCCESS");
+    } else {
+      //console.log('Data[4]', data[4])
+      console.log("_get_sleep :: FAILURE");
+    }
     //Display site
     res.render("pages/index", { data: data });
   });
 });
+
 //Simple signup page that renders a signup html, eventually
 //Leading to a post request for user and URL adding to database
 app.get("/signup", function (req, res) {
