@@ -8,7 +8,9 @@ module.exports = {
   addUser,
   findUserById,
   findUserByUsername,
-  //   update,
+  change,
+  findURLsByUsername,
+  addURLs,
 };
 
 //add
@@ -40,16 +42,21 @@ function findUserByUsername(user) {
   return db("users").where({ user }).first();
 }
 
-// function update(id, changes) {
-//   findUserById(id).then((obj) => {
-//     console.log(obj);
-//   });
-//   console.log("In crud update");
-//   return db("users")
-//     .where({ id })
-//     .update(changes)
-//     .then(() => {
-//       console.log("in then");
-//       return findUserById(id);
-//     });
-// }
+function change(id, changes) {
+  return db("users")
+    .where({ id })
+    .update(changes)
+    .then(() => {
+      return findUserById(id);
+    });
+}
+
+//add
+async function addURLs(obj) {
+  return await db("urls").insert(obj, ["id"]);
+}
+
+//find user by id
+function findURLsByUsername(userID) {
+  return db("users").where({ id: userID });
+}

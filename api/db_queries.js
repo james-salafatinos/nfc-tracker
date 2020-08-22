@@ -31,17 +31,19 @@ router.get("/users", function (req, res) {
     });
 });
 
-//Simple query to pull all users from database
-router.patch("/users/:id", function (req, res) {
-  const id = req.params;
+// Edit the database
+router.patch("/users/edit/:id", function (req, res) {
+  const { id } = req.params;
   const changes = req.body;
-  console.log(id, changes);
-
-  //get data from db
   db_crud
-    .update(id, changes)
+    //"Change" is the db operation
+    .change(id, changes)
     .then((obj) => {
-      res.status(200).json(obj);
+      if (obj) {
+        res.status(200).json(obj);
+      } else {
+        res.status(404).json({ message: "record not found" });
+      }
     })
     .catch((error) => {
       res.status(500).json({ message: "Error updating Users in DB" });

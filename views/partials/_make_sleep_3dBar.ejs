@@ -1,279 +1,304 @@
 <script>
+  var origin = [475, 300],
+    scale_sleep = 20,
+    j = 10,
+    cubesData_sleep = [],
+    alpha_sleep = 0,
+    beta_sleep = 0,
+    startAngle_sleep = Math.PI / 6;
+  var svg_sleep = d3
+    .select("#sleep")
+    .append("svg")
+    .call(
+      d3.drag().on("drag", dragged).on("start", dragStart).on("end", dragEnd)
+    )
+    .append("g");
+  var color = d3
+    .scaleOrdinal(d3.schemeCategory20)
+    .range(["#ff7f0e", "#aec7e8", "#7F0EFF"]);
+  var cubesGroup_sleep = svg_sleep.append("g").attr("class", "cubes");
+  var mx_sleep, my_sleep, mouseX_sleep, mouseY_sleep;
 
-        var origin = [475, 300], scale_sleep = 20, j = 10, cubesData_sleep = [], alpha_sleep = 0, beta_sleep = 0, startAngle_sleep = Math.PI/6;
-        var svg_sleep    = d3.select('#sleep').append('svg').call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
-        var color  = d3.scaleOrdinal(d3.schemeCategory20).range(['#ff7f0e', '#aec7e8', '#7F0EFF']);
-        var cubesGroup_sleep = svg_sleep.append('g').attr('class', 'cubes');
-        var mx_sleep, my_sleep, mouseX_sleep, mouseY_sleep;
+  function choose_color(d3_color_fn, val) {
+    t = "";
 
+    console.log("choose color function", t);
+    return d3_color_fn(t);
+  }
 
-        function choose_color(d3_color_fn,  val){
+  var cubes3D_sleep = d3
+    ._3d()
+    .shape("CUBE")
+    .x(function (d) {
+      return d.x;
+    })
+    .y(function (d) {
+      return d.y;
+    })
+    .z(function (d) {
+      return d.z;
+    })
+    .rotateY(startAngle_sleep + Math.PI)
+    .rotateX(-startAngle_sleep)
+    .origin(origin)
+    .scale(scale_sleep);
 
-            t = ''
-            
-            console.log('choose color function', t)
-            return d3_color_fn(t)
+  function processData_sleep(data, tt) {
+    /* --------- CUBES ---------*/
+
+    var cubes = cubesGroup_sleep.selectAll("g.cube").data(data, function (d) {
+      return d.id;
+    });
+
+    var ce = cubes
+      .enter()
+      .append("g")
+      .attr("class", "cube")
+      .attr("fill", function (d) {
+        console.log("d", d.height);
+        if (d.height < -7) {
+          return d3.color(color.range()[2]);
+        } else {
+          return d3.color(color(d["Bad"])).darker(78);
         }
- 
+      })
 
-        
-    
-        var cubes3D_sleep = d3._3d()
-            .shape('CUBE')
-            .x(function(d){ return d.x; })
-            .y(function(d){ return d.y; })
-            .z(function(d){ return d.z; })
-            .rotateY( startAngle_sleep + Math.PI)
-            .rotateX(-startAngle_sleep)
-            .origin(origin)
-            .scale(scale_sleep);
-
-        
-    
-        function processData_sleep(data, tt){
-    
-            /* --------- CUBES ---------*/
-    
-            var cubes = cubesGroup_sleep.selectAll('g.cube').data(data, function(d){ return d.id });
-
-     
-            var ce = cubes
-                .enter()
-                .append('g')
-                .attr('class', 'cube')
-                .attr('fill', function(d){ 
-                    console.log('d',d.height)
-                    if (d.height < -7){
-                        return d3.color(color.range()[2]); 
-                    }  else{
-                        return d3.color(color(d['Bad'])).darker(78); 
-
-                    }
-                    })
-                  
-                    
-                .attr('stroke', function(d){ 
-                    console.log('d',d.height)
-                    if (d.height < -7){
-                        return d3.color(color.range()[2]).darker(2); 
-                    }  else{
-                        return d3.color(color.range()[2]).darker(2); 
-
-                    }
-                    })
-                .merge(cubes)
-                .sort(cubes3D_sleep.sort);
-                
-
-            cubes.exit().remove();
-    
-            /* --------- FACES ---------*/
-    
-            var faces = cubes.merge(ce).selectAll('path.face').data(function(d){ return d.faces; }, function(d){ return d.face; });
-    
-            faces.enter()
-                .append('path')
-                .attr('class', 'face')
-                .attr('fill-opacity', 0.95)
-                .classed('_3d', true)
-                .merge(faces)
-                .transition().duration(tt)
-                .attr('d', cubes3D_sleep.draw);
-    
-            faces.exit().remove();
-    
-            /* --------- TEXT ---------*/
-    
-            var texts = cubes.merge(ce).selectAll('text.text').data(function(d){
-                var _t = d.faces.filter(function(d){
-                    
-                    return d.face === 'top';
-                });
-                return [{height: d.height, centroid: _t[0].centroid, day: d.day}];
-            });
-    
-    
-            function getDayOfWeek(date) {
-            const dayOfWeek = new Date(date).getDay();    
-            return isNaN(dayOfWeek) ? null : 
-                ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'][dayOfWeek];
-            }
-            
-    
-            texts
-                .enter()
-                .append('text')
-                .attr('class', 'text')
-                .attr('dy', '-.7em')
-                .attr('text-anchor', 'middle')
-                .attr('font-family', 'sans-serif')
-                .attr('font-weight', 'bolder')
-                .attr('x', function(d){ return origin[0] + scale_sleep * d.centroid.x })
-                .attr('y', function(d){ return origin[1] + scale_sleep * d.centroid.y })
-                .classed('_3d', true)
-                .merge(texts)
-                .transition().duration(tt)
-                .attr('fill', 'black')
-                .attr('stroke', 'none')
-                .attr('x', function(d){ return origin[0] + scale_sleep * d.centroid.x })
-                .attr('y', function(d){ return origin[1] + scale_sleep * d.centroid.y })
-                .tween('text', function(d){
-                    var that = d3.select(this);
-    
-                    //console.log(that.text().slice(that.text().length-3,that.text().length))
-                    //interpolated after a slice of the String because the text is passed including the date...
-                    var i = d3.interpolateNumber(+(that.text().slice(that.text().length-3,that.text().length)), Math.abs(d.height));
-                    var v = () => getDayOfWeek(d.day)//d.day//d3.interpolateString(d.day, Math.abs(d.height));
-    
-                    return function(t){
-                        that.text(v(t) + ' | ' + i(t).toFixed(1));
-    
-                    };
-                });
-    
-            texts.exit().remove();
-    
-            /* --------- SORT TEXT & FACES ---------*/
-    
-            ce.selectAll('._3d').sort(d3._3d().sort);
-    
+      .attr("stroke", function (d) {
+        console.log("d", d.height);
+        if (d.height < -7) {
+          return d3.color(color.range()[2]).darker(2);
+        } else {
+          return d3.color(color.range()[2]).darker(2);
         }
-    
-    
-    
-    
-    
-    
-        function init(){
-            cubesData_sleep = [];
-            let _z = []
-            let _j = []
-            let _x = []
-            let _h = []
-            var cnt = 0;
-            console.log('data_sleep from index.js', data_sleep)
-            
-                        //Create "Keep" filter for dates to display the 28 habit view
-            const date_entries = Array.from(Array(30).keys())
-            const dates_allowed = date_entries.map(date => _get_date_str(shift_days = -date));
-            console.log('dates_allowed',dates_allowed)
+      })
+      .merge(cubes)
+      .sort(cubes3D_sleep.sort);
 
-            console.log('nested data sleep_pre')
+    cubes.exit().remove();
 
-            
-            
-            //******keys: Date, Hours ******Group By the Date!
-            var nested_data_sleep = d3.nest()
-                .key(function(d) { return d.Date; }) //cat
-                .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Hours']}); })
-                .entries(data_sleep);
-            console.log('nested data sleep', nested_data_sleep)
-            
+    /* --------- FACES ---------*/
 
-            
-
-
-            function _get_date_str(shift_days = 0){
-                            const today = new Date()
-                        
-                            //shift the days if we want to get another date for easy time range
-                            if (shift_days < 0){
-                                today.setDate(today.getDate()+shift_days)
-                            }
-                                    
-                            let strDate = 'm/d/Y'
-                            .replace('Y', today.getFullYear())
-                            .replace('m', today.getMonth()+1)
-                            .replace('d', today.getDate());
-                            return strDate
-                        }
-
-            for(var z = -j; z <= j; z = z + 6){
-                for(var x = -j; x <= j; x = x + 3){
-                    //console.log('error h call', nested_data_sleep)
-                    // console.log('error h call', nested_data_sleep[cnt])
-                    // console.log('error h call', nested_data_sleep[cnt].value)
-
-                    
-
-                       //async return response and d3 parse
-
-
-                    
-
-                    function isUndefined(value){
-                            // Obtain `undefined` value that's
-                            // guaranteed to not have been re-assigned
-                            var undefined = void(0);
-                            return value === undefined;
-                        }
-
-                    if (isUndefined(nested_data_sleep[cnt])){
-
-
-                    } else{
-                        h = -1*nested_data_sleep[cnt].value
-                    }
-                    
-                    if (isUndefined(nested_data_sleep[cnt])){
-                    } else{
-
-                        
-
-                        var _cube = makeCube(h, x, z);
-
-                        _cube.height = h;
-                        _cube.day = nested_data_sleep[cnt].key
-                        _cube.id = 'cube_' + cnt++;
-                       // console.log(_cube.day)
-                    }
-                   
-        
-                        _z.push(z)
-                        _j.push(j)
-                        _x.push(x)
-                        _h.push(h)
-        
-                        cubesData_sleep.push(_cube);
-                    }
-            }
-            processData_sleep(cubes3D_sleep(cubesData_sleep), 1000);
+    var faces = cubes
+      .merge(ce)
+      .selectAll("path.face")
+      .data(
+        function (d) {
+          return d.faces;
+        },
+        function (d) {
+          return d.face;
         }
-    
-        function dragStart(){
-            mx_sleep = d3.event.x;
-            my_sleep = d3.event.y;
-            console.log('sleep',mx,my)
+      );
+
+    faces
+      .enter()
+      .append("path")
+      .attr("class", "face")
+      .attr("fill-opacity", 0.95)
+      .classed("_3d", true)
+      .merge(faces)
+      .transition()
+      .duration(tt)
+      .attr("d", cubes3D_sleep.draw);
+
+    faces.exit().remove();
+
+    /* --------- TEXT ---------*/
+
+    var texts = cubes
+      .merge(ce)
+      .selectAll("text.text")
+      .data(function (d) {
+        var _t = d.faces.filter(function (d) {
+          return d.face === "top";
+        });
+        return [{ height: d.height, centroid: _t[0].centroid, day: d.day }];
+      });
+
+    function getDayOfWeek(date) {
+      const dayOfWeek = new Date(date).getDay();
+      return isNaN(dayOfWeek)
+        ? null
+        : ["Su", "M", "T", "W", "Th", "F", "Sa"][dayOfWeek];
+    }
+
+    texts
+      .enter()
+      .append("text")
+      .attr("class", "text")
+      .attr("dy", "-.7em")
+      .attr("text-anchor", "middle")
+      .attr("font-family", "sans-serif")
+      .attr("font-weight", "bolder")
+      .attr("x", function (d) {
+        return origin[0] + scale_sleep * d.centroid.x;
+      })
+      .attr("y", function (d) {
+        return origin[1] + scale_sleep * d.centroid.y;
+      })
+      .classed("_3d", true)
+      .merge(texts)
+      .transition()
+      .duration(tt)
+      .attr("fill", "black")
+      .attr("stroke", "none")
+      .attr("x", function (d) {
+        return origin[0] + scale_sleep * d.centroid.x;
+      })
+      .attr("y", function (d) {
+        return origin[1] + scale_sleep * d.centroid.y;
+      })
+      .tween("text", function (d) {
+        var that = d3.select(this);
+
+        //console.log(that.text().slice(that.text().length-3,that.text().length))
+        //interpolated after a slice of the String because the text is passed including the date...
+        var i = d3.interpolateNumber(
+          +that.text().slice(that.text().length - 3, that.text().length),
+          Math.abs(d.height)
+        );
+        var v = () => getDayOfWeek(d.day); //d.day//d3.interpolateString(d.day, Math.abs(d.height));
+
+        return function (t) {
+          that.text(v(t) + " | " + i(t).toFixed(1));
+        };
+      });
+
+    texts.exit().remove();
+
+    /* --------- SORT TEXT & FACES ---------*/
+
+    ce.selectAll("._3d").sort(d3._3d().sort);
+  }
+
+  function init() {
+    cubesData_sleep = [];
+    let _z = [];
+    let _j = [];
+    let _x = [];
+    let _h = [];
+    var cnt = 0;
+    console.log("data_sleep from index.js", data_sleep);
+
+    //Create "Keep" filter for dates to display the 28 habit view
+    const date_entries = Array.from(Array(30).keys());
+    const dates_allowed = date_entries.map((date) =>
+      _get_date_str((shift_days = -date))
+    );
+    console.log("dates_allowed", dates_allowed);
+
+    console.log("nested data sleep_pre");
+
+    //******keys: Date, Hours ******Group By the Date!
+    var nested_data_sleep = d3
+      .nest()
+      .key(function (d) {
+        return d.Date;
+      }) //cat
+      .rollup(function (cat) {
+        return d3.sum(cat, function (d) {
+          return d["Hours"];
+        });
+      })
+      .entries(data_sleep);
+    console.log("nested data sleep", nested_data_sleep);
+
+    function _get_date_str(shift_days = 0) {
+      const today = new Date();
+
+      //shift the days if we want to get another date for easy time range
+      if (shift_days < 0) {
+        today.setDate(today.getDate() + shift_days);
+      }
+
+      let strDate = "m/d/Y"
+        .replace("Y", today.getFullYear())
+        .replace("m", today.getMonth() + 1)
+        .replace("d", today.getDate());
+      return strDate;
+    }
+
+    for (var z = -j; z <= j; z = z + 6) {
+      for (var x = -j; x <= j; x = x + 3) {
+        //console.log('error h call', nested_data_sleep)
+        // console.log('error h call', nested_data_sleep[cnt])
+        // console.log('error h call', nested_data_sleep[cnt].value)
+
+        //async return response and d3 parse
+
+        function isUndefined(value) {
+          // Obtain `undefined` value that's
+          // guaranteed to not have been re-assigned
+          var undefined = void 0;
+          return value === undefined;
         }
-    
-        function dragged(){
-            mouseX_sleep = mouseX_sleep || 0;
-            mouseY_sleep = mouseY_sleep || 0;
-            beta_sleep   = (d3.event.x - mx_sleep + mouseX_sleep) * Math.PI / 230 ;
-            alpha_sleep  = (d3.event.y - my_sleep + mouseY_sleep) * Math.PI / 230  * (-1);
-            processData_sleep(cubes3D_sleep.rotateY(beta_sleep + startAngle_sleep + Math.PI ).rotateX(alpha_sleep - startAngle_sleep)(cubesData_sleep), 0);
+
+        if (isUndefined(nested_data_sleep[cnt])) {
+        } else {
+          h = -1 * nested_data_sleep[cnt].value;
         }
-    
-        function dragEnd(){
-            mouseX_sleep = d3.event.x - mx_sleep + mouseX_sleep;
-            mouseY_sleep = d3.event.y - my_sleep + mouseY_sleep;
+
+        if (isUndefined(nested_data_sleep[cnt])) {
+        } else {
+          var _cube = makeCube(h, x, z);
+
+          _cube.height = h;
+          _cube.day = nested_data_sleep[cnt].key;
+          _cube.id = "cube_" + cnt++;
+          // console.log(_cube.day)
         }
-    
-        function makeCube(h, x, z){
-            return [
-                {x: x - 1, y: h, z: z + 1}, // FRONT TOP LEFT
-                {x: x - 1, y: 0, z: z + 1}, // FRONT BOTTOM LEFT
-    
-                {x: x + 1, y: 0, z: z + 1}, // FRONT BOTTOM RIGHT
-                {x: x + 1, y: h, z: z + 1}, // FRONT TOP RIGHT
-                {x: x - 1, y: h, z: z - 1}, // BACK  TOP LEFT
-                {x: x - 1, y: 0, z: z - 1}, // BACK  BOTTOM LEFT
-                {x: x + 1, y: 0, z: z - 1}, // BACK  BOTTOM RIGHT
-                {x: x + 1, y: h, z: z - 1}, // BACK  TOP RIGHT
-            ];
-        }
-    
-        d3.selectAll('button').on('click', init);
-    
-        init();
-    </script> 
+
+        _z.push(z);
+        _j.push(j);
+        _x.push(x);
+        _h.push(h);
+
+        cubesData_sleep.push(_cube);
+      }
+    }
+    processData_sleep(cubes3D_sleep(cubesData_sleep), 1000);
+  }
+
+  function dragStart() {
+    mx_sleep = d3.event.x;
+    my_sleep = d3.event.y;
+    console.log("sleep", mx, my);
+  }
+
+  function dragged() {
+    mouseX_sleep = mouseX_sleep || 0;
+    mouseY_sleep = mouseY_sleep || 0;
+    beta_sleep = ((d3.event.x - mx_sleep + mouseX_sleep) * Math.PI) / 230;
+    alpha_sleep =
+      (((d3.event.y - my_sleep + mouseY_sleep) * Math.PI) / 230) * -1;
+    processData_sleep(
+      cubes3D_sleep
+        .rotateY(beta_sleep + startAngle_sleep + Math.PI)
+        .rotateX(alpha_sleep - startAngle_sleep)(cubesData_sleep),
+      0
+    );
+  }
+
+  function dragEnd() {
+    mouseX_sleep = d3.event.x - mx_sleep + mouseX_sleep;
+    mouseY_sleep = d3.event.y - my_sleep + mouseY_sleep;
+  }
+
+  function makeCube(h, x, z) {
+    return [
+      { x: x - 1, y: h, z: z + 1 }, // FRONT TOP LEFT
+      { x: x - 1, y: 0, z: z + 1 }, // FRONT BOTTOM LEFT
+
+      { x: x + 1, y: 0, z: z + 1 }, // FRONT BOTTOM RIGHT
+      { x: x + 1, y: h, z: z + 1 }, // FRONT TOP RIGHT
+      { x: x - 1, y: h, z: z - 1 }, // BACK  TOP LEFT
+      { x: x - 1, y: 0, z: z - 1 }, // BACK  BOTTOM LEFT
+      { x: x + 1, y: 0, z: z - 1 }, // BACK  BOTTOM RIGHT
+      { x: x + 1, y: h, z: z - 1 }, // BACK  TOP RIGHT
+    ];
+  }
+
+  d3.selectAll("button").on("click", init);
+
+  init();
+</script>

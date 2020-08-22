@@ -27,6 +27,8 @@ Get to it: http://nfc-tracker.herokuapp.com/
 13. :white_check_mark: Fix the weird offset on the weight visualization causing the misalignment between date annotations and 3d rectangles
 14. Generalize the graphical generators and create API for certain visual/grouping features
 15. Make database URLs for users a list and add GUI CRUD for profiles to edit the urls
+16. Refactor any database route handing with the if/else then catch pattern for handling the request AND the database handle
+17.
 
 ## Workstreams:
 
