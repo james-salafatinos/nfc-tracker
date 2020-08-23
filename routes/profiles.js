@@ -25,24 +25,29 @@ router.get("/", function (req, res) {
 //Handle a direct url lookup of a specific user
 // Will show viz if exists, otherwise not
 router.get("/:username", function (req, res) {
-  db_crud
-    .findUserByUsername(req.params.username)
-    .then((obj) => {
-      let user_defined = new ds(
-        obj.user_urls,
-        (key = ""),
-        (date_span = 31),
-        (date_field = "Date")
-      );
-      Promise.all([user_defined.fetch()]).then((data) => {
-        helpers.validate(data);
-        res.status(200);
-        res.render("../views/pages/index_morph", { data: data });
+  console.log(":/username", req.params);
+  db_crud.findUserByUsername(req.params.username).then((user_obj) => {
+    console.log(user_obj);
+    db_crud
+      .findURLsByUserID(user_obj.id)
+      .then((url_obj) => {
+        console.log(url_obj);
+        let user_defined = new ds(
+          url_obj.url,
+          (key = ""),
+          (date_span = 31),
+          (date_field = "Date")
+        );
+        Promise.all([user_defined.fetch()]).then((data) => {
+          helpers.validate(data);
+          res.status(200);
+          res.render("../views/pages/index_morph", { data: data });
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({ message: "Error finding Users in DB" });
       });
-    })
-    .catch((error) => {
-      res.status(500).json({ message: "Error finding Users in DB" });
-    });
+  });
 });
 
 module.exports = router;

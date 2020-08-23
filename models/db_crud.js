@@ -9,7 +9,7 @@ module.exports = {
   findUserById,
   findUserByUsername,
   change,
-  findURLsByUsername,
+  findURLsByUserID,
   addURLs,
 };
 
@@ -39,7 +39,7 @@ function findUserById(id) {
 
 //find user by id
 function findUserByUsername(userID) {
-  return db("users").where({ id: userID }).first();
+  return db("users").where({ username: userID }).first();
 }
 
 function change(id, changes) {
@@ -57,6 +57,6 @@ async function addURLs(obj) {
 }
 
 //find user by id
-function findURLsByUsername(userID) {
-  return db("users").where({ id: userID });
+function findURLsByUserID(userID) {
+  return db("urls").where({ user_id: userID }).first();
 }

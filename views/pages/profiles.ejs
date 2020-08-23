@@ -45,18 +45,18 @@
 <h1> Profiles </h1>
 <ul>
   <% for(var i=0; i< data.length; i++) {%>
-     <li><%= data[i].user %></li>
+     <li><%= data[i].username %></li>
   <% } %>
 </ul>
 </ul>
   <% for(var i=0; i< data.length; i++) {%>
      <li>
-      <input type="button" value=<%= data[i].user %> onclick= "clicked( <%=i%>)">
+      <input type="button" value=<%= data[i].username %> onclick= "clicked( <%=i%>)">
     </li>
   <% } %>
   <script>
     function clicked(dataIndex) {
-        window.location.href = '/profiles/' + stringdata[dataIndex].user
+        window.location.href = '/profiles/' + stringdata[dataIndex].username
     }
   </script>
 </ul>

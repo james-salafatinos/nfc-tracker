@@ -28,7 +28,6 @@ Get to it: http://nfc-tracker.herokuapp.com/
 14. Generalize the graphical generators and create API for certain visual/grouping features
 15. Make database URLs for users a list and add GUI CRUD for profiles to edit the urls
 16. Refactor any database route handing with the if/else then catch pattern for handling the request AND the database handle
-17.
 
 ## Workstreams:
 
@@ -93,3 +92,11 @@ Choice of:
 
 Headaches:
 https://docs.google.com/spreadsheets/d/e/2PACX-1vTqgsxeKiU1_bjuRTQiG1nd7OwBJWX82Tt3yNGUHo2NznMiccxVEe0bJ13nilBW19HmPgVCrzyyOBnv/pub?output=csv
+
+bcrypt:
+
+if(bcrypt.compareSync('somePassword', hash)) {
+// Passwords match
+} else {
+// Passwords don't match
+}
