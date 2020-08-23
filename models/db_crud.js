@@ -38,8 +38,8 @@ function findUserById(id) {
 }
 
 //find user by id
-function findUserByUsername(user) {
-  return db("users").where({ user }).first();
+function findUserByUsername(userID) {
+  return db("users").where({ id: userID }).first();
 }
 
 function change(id, changes) {

@@ -38,4 +38,34 @@ app.use("/profiles", profiles);
 var homepage = require("./routes/homepage");
 app.use("/", homepage);
 
+app.post("/urlstest", function (req, res) {
+  console.log("Accessing urlstest POST request...");
+  const body = req.body;
+  console.log("Body of POST request:", body);
+  db_crud
+    .addURLs(req.body)
+    .then((obj) => {
+      console.log("Inside then of DB Crud ADD URLS", obj);
+      res.status(200);
+      res.send(
+        `Your url you provided was:\n ${body.user_urls}\n\n Your dashboard page is:\n http://nfc-tracker.herokuapp.com/${body.user}`
+      );
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Error with adding user to DB" });
+    });
+});
+app.get("/urlstest", function (req, res) {
+  const body = req.body;
+  db_crud
+    .findURLsByUsername(req.body)
+    .then((obj) => {
+      res.status(200);
+      res.send("urls test page");
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Error with adding user to DB" });
+    });
+});
+
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

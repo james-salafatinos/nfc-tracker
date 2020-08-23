@@ -2,7 +2,7 @@ const bodyParser = require("body-parser");
 const db_crud = require("../models/db_crud.js");
 const express = require("express");
 var router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json({ extended: true }));
 
 // url set, that posts to the database
 router.post("/", function (req, res) {
@@ -25,6 +25,37 @@ router.post("/", function (req, res) {
 router.get("/", function (req, res) {
   let data = {};
   res.render("../views/pages/signup", { data: data });
+});
+
+//URLS
+router.post("/urlstest", function (req, res) {
+  console.log("Accessing urlstest POST request...");
+  const body = req.body;
+  console.log("Body of POST request:", body);
+  db_crud
+    .addURLs(req.body)
+    .then((obj) => {
+      console.log("Inside then of DB Crud ADD URLS", obj);
+      res.status(200);
+      res.send(
+        `Your url you provided was:\n ${body.user_urls}\n\n Your dashboard page is:\n http://nfc-tracker.herokuapp.com/${body.user}`
+      );
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Error with adding user to DB" });
+    });
+});
+router.get("/urlstest", function (req, res) {
+  const body = req.body;
+  db_crud
+    .findURLsByUsername(req.body)
+    .then((obj) => {
+      res.status(200);
+      res.send("urls test page");
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Error with adding user to DB" });
+    });
 });
 
 module.exports = router;
