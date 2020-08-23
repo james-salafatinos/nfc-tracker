@@ -32,11 +32,11 @@ router.post("/", function (req, res) {
   });
 
   //Urls table
-  user_entry.then((should_be_user_id) => {
+  user_entry.then((user_obj) => {
     let url_obj = {
       url: body.url,
       url_title: body.url_title,
-      user_id: should_be_user_id,
+      user_id: user_obj.id || user_obj, //Differing return types of the resolved object above from heroku and local
     };
     console.log("Url Obj to add ", url_obj);
     db_crud.addURLs(url_obj).then((obj) => {
