@@ -36,7 +36,7 @@ router.post("/", function (req, res) {
     let url_obj = {
       url: body.url,
       url_title: body.url_title,
-      user_id: user_obj.id || user_obj, //Differing return types of the resolved object above from heroku and local
+      user_id: user_obj.id, //Differing return types of the resolved object above from heroku and local
     };
     console.log("Url Obj to add ", url_obj);
     db_crud.addURLs(url_obj).then((obj) => {
