@@ -23,7 +23,7 @@ router.post("/", function (req, res) {
         res.send(
           `Thanks for signing up, ${body.username}, Your dashboard page will be:\n http://nfc-tracker.herokuapp.com/profiles/${body.username}`
         );
-        resolve(obj);
+        resolve(obj[0]);
       })
       .catch((error) => {
         res.status(500).json({ message: "Error with adding user to DB" });
