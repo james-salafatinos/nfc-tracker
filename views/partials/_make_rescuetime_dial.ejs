@@ -16,6 +16,16 @@
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 
+        var title = d3.select('#rescue_time')
+            .append('svg')
+            .append('text')
+            .text('Weekly Phone + Computer Time Breakdown')
+            .attr("y", 25)         
+            .attr("x", 220)
+            .attr('fill', 'black')
+            .style("font-size", "26px")
+
+
         var nested_data = d3.nest()
         .key(function(d) { return d.Activity; })
         .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Time Spent (seconds)']}); })

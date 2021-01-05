@@ -34,6 +34,11 @@ app.use("/signup", signup);
 var profiles = require("./routes/profiles");
 app.use("/profiles", profiles);
 
+//music
+var music = require("./routes/music");
+app.use("/music", music);
+
+
 //Homepage/index
 var homepage = require("./routes/homepage");
 app.use("/", homepage);
@@ -67,5 +72,6 @@ app.get("/urlstest", function (req, res) {
       res.status(500).json({ message: "Error with adding user to DB" });
     });
 });
+
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

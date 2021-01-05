@@ -17,6 +17,17 @@
   var cubesGroup = svg_weight.append("g").attr("class", "cubes");
   var mx_weight, my_weight, mouseX_weight, mouseY_weight;
 
+
+  var title = d3.select('#weight')
+                .append('svg')
+                .append('text')
+                .text('Weight for the past month (lbs)')
+                .attr("y", 50)         
+                .attr("x", 300)
+                .attr('fill', 'black')
+                .style("font-size", "26px")
+
+
   var cubes3D = d3
     ._3d()
     .shape("CUBE")

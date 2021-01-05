@@ -17,20 +17,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
   </head>
 
-  <div class="jumbotron text-center">
-    <div class="container">
-      <a href="/" class="lang-logo">
-        <img src="/profilepic.jpg" />
-      </a>
-      <br />
-      <a type="button" class="btn btn-lg btn-default" href=""
-        ><span class="glyphicon glyphicon-flash"></span
-      ></a>
-      <a type="button" class="btn btn-lg btn-primary" href=""
-        ><span class="glyphicon glyphicon-download"></span
-      ></a>
-    </div>
-  </div>
+  
 
   <!-- Visualization !-->
   <body>
@@ -44,22 +31,22 @@
         }
       </style>
 
-      <svg width="860" height="500" id="habit">
-        <% include ../partials/_make_habits_3dBar.ejs %> -->
+      <svg width="860" height="600" id="habit">
+        <% include ../partials/_make_habits_3dBar.ejs %> 
       </svg>
       <svg width="860" height="600" id="rescue_time">
         <% include ../partials/_make_rescuetime_dial.ejs %>
       </svg>
 
-      <svg width="860" height="500" id="weight">
-        <% include ../partials/_make_weight_3dBar.ejs %> -->
+      <svg width="860" height="600" id="weight">
+        <% include ../partials/_make_weight_3dBar.ejs %> 
       </svg>
 
-      <svg width="860" height="500" id="scatter">
-        <% include ../partials/_make_test_3dMesh.ejs %> -->
+      <svg width="860" height="600" id="scatter">
+        <% include ../partials/_make_test_3dMesh.ejs %> 
       </svg>
 
-      <svg width="860" height="500" id="sleep">
+      <svg width="860" height="600" id="sleep">
         <% include ../partials/_make_sleep_3dBar.ejs %> -->
       </svg>
 

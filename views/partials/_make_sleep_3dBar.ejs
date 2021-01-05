@@ -13,6 +13,20 @@
       d3.drag().on("drag", dragged).on("start", dragStart).on("end", dragEnd)
     )
     .append("g");
+
+
+  var title = d3.select('#sleep')
+          .append('svg')
+          .append('text')
+          .text('Hours of Sleep for the past month')
+          .attr("y", 25)         
+          .attr("x", 200)
+          .attr('fill', 'black')
+          .style("font-size", "26px")
+
+
+
+
   var color = d3
     .scaleOrdinal(d3.schemeCategory20)
     .range(["#ff7f0e", "#aec7e8", "#7F0EFF"]);

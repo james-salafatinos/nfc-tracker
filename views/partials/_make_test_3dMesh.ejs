@@ -13,6 +13,15 @@
             .rotateY(startAngle)
             .rotateX(-startAngle)
             .shape('SURFACE', j*2);
+
+        var title = d3.select('#scatter')
+            .append('svg')
+            .append('text')
+            .text('Very cool and trippy graphic - click and drag straight up!')
+            .attr("y", 50)         
+            .attr("x", 200)
+            .attr('fill', 'black')
+            .style("font-size", "26px")
     
         var color_heat = d3.scaleLinear().domain([1,3]);
     
