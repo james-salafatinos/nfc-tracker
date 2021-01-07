@@ -33,7 +33,7 @@
 
         
         //Getting the domain for colors (how many colors do you want)
-        let cat_time_day = Object.values(nested_data)
+        let cat_time_day = Object.values(nested_data_day)
         var cats_day = [];
         for(var o in cat_time_day) {
             cats_day.push(cat_time_day[o].key);
@@ -76,7 +76,7 @@
         // The arc generator
         var arc_day = d3.arc()
         .innerRadius(radius_day * 0.5)         // This is the size of the donut hole
-        .outerRadius(radius * 0.8)
+        .outerRadius(radius_day * 0.8)
 
         // Another arc that won't be drawn. Just for labels positioning
         var outerArc_day = d3.arc()
