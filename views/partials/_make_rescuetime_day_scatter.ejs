@@ -30,6 +30,8 @@
         .rollup(function(cat) { return d3.sum(cat, function(d) {return d['Time Spent (seconds)']}); })
         .entries(data_rescue_day);
 
+        console.log("Nested Data Day in make graphic", nested_data_day)
+
         
         //Getting the domain for colors (how many colors do you want)
         let cat_time_day = Object.values(nested_data_day)
