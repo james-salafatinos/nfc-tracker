@@ -29,13 +29,13 @@
 
   var color = d3
     .scaleOrdinal(d3.schemeCategory20)
-    .range(["#ff7f0e", "#aec7e8", "#7F0EFF"]);
+    //.range(["#ff7f0e", "#aec7e8", "#7F0EFF"]);
+    //"#9467bd"
   var cubesGroup_sleep = svg_sleep.append("g").attr("class", "cubes");
   var mx_sleep, my_sleep, mouseX_sleep, mouseY_sleep;
 
   function choose_color(d3_color_fn, val) {
     t = "";
-
     console.log("choose color function", t);
     return d3_color_fn(t);
   }
@@ -71,18 +71,19 @@
       .attr("fill", function (d) {
         console.log("d", d.height);
         if (d.height < -7) {
-          return d3.color(color.range()[2]);
+          return d3.color(color.range()[8]);
         } else {
-          return d3.color(color(d["Bad"])).darker(78);
+          //return d3.color(color(d["Bad"])).darker(78);
+          return d3.color(color.range()[14]).darker(2);
         }
       })
 
       .attr("stroke", function (d) {
         console.log("d", d.height);
         if (d.height < -7) {
-          return d3.color(color.range()[2]).darker(2);
+          return d3.color(color.range()[8]).darker(2);
         } else {
-          return d3.color(color.range()[2]).darker(2);
+          return d3.color(color.range()[14]).darker(3);
         }
       })
       .merge(cubes)
