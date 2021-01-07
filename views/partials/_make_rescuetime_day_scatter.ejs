@@ -15,16 +15,15 @@
         .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-
-                
-            var title = d3.select('#rescue_time_day')
-                .append('svg')
-                .append('text')
-                .text('Daily Phone + Computer Time Breakdown')
-                .attr("y", 25)         
-                .attr("x", 250)
-                .attr('fill', 'black')
-                .style("font-size", "26px")
+     
+        var title = d3.select('#rescue_time_day')
+            .append('svg')
+            .append('text')
+            .text('Daily Phone + Computer Time Breakdown')
+            .attr("y", 25)         
+            .attr("x", 250)
+            .attr('fill', 'black')
+            .style("font-size", "26px")
 
         var nested_data_day = d3.nest()
         .key(function(d) { return d.Activity; })
@@ -108,8 +107,8 @@
             var posA_day = arc_day.centroid(d) // line insertion in the slice
             var posB_day = outerArc_day.centroid(d) // line break: we use the other arc generator that has been built only for that
             var posC_day = outerArc_day.centroid(d); // Label position = almost the same as posB
-            var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
-            posC_day[0] = radius_day * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+            var midangle_day = d.startAngle_day + (d.endAngle_day - d.startAngle_day) / 2 // we need the angle_day_day to see if the X position will be at the extreme right or extreme left
+            posC_day[0] = radius_day * 0.95 * (midangle_day < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
             return [posA_day, posB_day, posC_day]
             })
 
@@ -125,13 +124,13 @@
             .text( function(d) {  return d.data.key.slice(1,d.data.key.length-1)} )
             .attr('transform', function(d) {
                 var pos_day = outerArc_day.centroid(d);
-                var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-                pos_day[0] = radius_day * 0.99 * (midangle < Math.PI ? 1 : -1);
+                var midangle_day = d.startAngle_day + (d.endAngle_day - d.startAngle_day) / 2
+                pos_day[0] = radius_day * 0.99 * (midangle_day < Math.PI ? 1 : -1);
                 return 'translate(' + pos_day + ')';
             })
             .style('text-anchor', function(d) {
-                var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-                return (midangle < Math.PI ? 'start' : 'end')
+                var midangle_day = d.startAngle_day + (d.endAngle_day - d.startAngle_day) / 2
+                return (midangle_day < Math.PI ? 'start' : 'end')
             })
          
 
