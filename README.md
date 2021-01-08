@@ -77,6 +77,8 @@ Donut Rescue Time Graph:
   - <% include ../partials/test*polygons.ejs %>
     \_Note* This must be inside of an `<svg id = 'example_id'>` tag and the file goes like this: `d3.select(##example_id).append('svg')`
 - Fricken postman... https://stackoverflow.com/questions/24543847/req-body-empty-on-posts
+- Always got to check your timezones on the server side... 
+  - heroku config:add TZ="America/Chicago" -a nfc-tracker
 
 ### Distributable
 
