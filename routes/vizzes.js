@@ -11,7 +11,7 @@ router.use(bodyParser.json({ extended: true }));
 //Leading to a post request for user and URL adding to database
 router.get("/", function (req, res) {
   let data = {};
-  res.render("../views/pages/music", { data: data });
+  res.render("../views/pages/vizzes", { data: data });
 });
 
 

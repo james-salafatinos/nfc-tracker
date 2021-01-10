@@ -35,8 +35,8 @@ var profiles = require("./routes/profiles");
 app.use("/profiles", profiles);
 
 //music
-var music = require("./routes/music");
-app.use("/music", music);
+var vizzes = require("./routes/vizzes");
+app.use("/vizzes", vizzes);
 
 
 //Homepage/index
